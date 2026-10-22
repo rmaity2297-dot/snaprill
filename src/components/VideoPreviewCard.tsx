@@ -4,15 +4,7 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  Maximize2,
-  RotateCcw,
   Scissors,
-  Eye,
-  Heart,
-  MessageCircle,
-  Clock,
-  ExternalLink,
-  Layers
 } from 'lucide-react';
 import { VideoDetails } from '../types';
 import { translations } from '../translations';
@@ -40,6 +32,24 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showTrimmer, setShowTrimmer] = useState(false);
 
+  // Determine whether direct HTML5 video stream is available (and not the ocean fallback)
+  const hasDirectStream = Boolean(video.videoUrl && !video.videoUrl.includes('oceans.mp4'));
+  const isEmbedPreferred = video.platform === 'youtube' || !hasDirectStream;
+  const [useEmbed, setUseEmbed] = useState<boolean>(isEmbedPreferred);
+
+  // Compute live embed player URL for YouTube Shorts/Videos or Instagram Reels
+  const getEmbedUrl = () => {
+    if (video.embedUrl) return video.embedUrl;
+    if (video.platform === 'youtube' && video.id) {
+      return `https://www.youtube-nocookie.com/embed/${video.id}?autoplay=0&controls=1&rel=0&modestbranding=1`;
+    }
+    if (video.platform === 'instagram' && video.id) {
+      return `https://www.instagram.com/reel/${video.id}/embed/`;
+    }
+    return '';
+  };
+  const activeEmbedUrl = getEmbedUrl();
+
   // Stream proxy URL for seamless HTML5 video playback without CORS blocking
   const rawVideoSrc = video.videoUrl || 'https://vjs.zencdn.net/v/oceans.mp4';
   const proxyVideoUrl = rawVideoSrc.startsWith('http') && !rawVideoSrc.includes(window.location.host)
@@ -53,6 +63,7 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
     const dur = video.duration || 15;
     setDuration(dur);
     setTrimRange([0, dur]);
+    setUseEmbed(video.platform === 'youtube' || !hasDirectStream);
   }, [video.id, video.platform, video.videoUrl]);
 
   const togglePlay = () => {
@@ -112,23 +123,116 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
     return `${m}:${s < 10 ? '0' : ''}${s}`;
   };
 
+  const handleToggleTrimmer = () => {
+    if (!showTrimmer && useEmbed) {
+      setUseEmbed(false);
+    }
+    setShowTrimmer(!showTrimmer);
+  };
+
   return (
     <div className="rounded-2xl bg-slate-900 border border-slate-800 p-4 sm:p-5 shadow-xl flex flex-col items-center tilt-card-3d">
       {/* 9:16 Video Player Stage — Clean & Focused purely on the video */}
       <div className="w-full max-w-[340px] shrink-0 mx-auto">
+        {/* Player Mode Indicator / Toggle */}
+        <div className="flex items-center justify-between mb-2 px-1 text-xs">
+          <span className="font-semibold text-slate-300 flex items-center gap-1.5">
+            <span className={`w-2 h-2 rounded-full ${useEmbed ? 'bg-rose-500' : 'bg-emerald-400'} animate-pulse`} />
+            {useEmbed
+              ? (video.platform === 'youtube'
+                  ? 'YouTube Player'
+                  : video.platform === 'instagram'
+                  ? 'Instagram Player'
+                  : 'Live Player')
+              : 'Custom Player'}
+          </span>
+          {activeEmbedUrl && (
+            <button
+              onClick={() => setUseEmbed(!useEmbed)}
+              className="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700/60 transition-colors cursor-pointer"
+            >
+              {useEmbed ? 'Switch to Custom Player' : 'Switch to Live Player'}
+            </button>
+          )}
+        </div>
+
         <div className="relative aspect-[9/16] max-h-[500px] w-full rounded-xl overflow-hidden bg-black border border-slate-800 shadow-2xl flex items-center justify-center group">
-          {proxyVideoUrl ? (
-            <video
-              ref={videoRef}
-              src={proxyVideoUrl}
-              poster={video.coverUrl}
-              loop={!showTrimmer}
-              playsInline
-              onTimeUpdate={handleTimeUpdate}
-              onLoadedMetadata={handleLoadedMetadata}
-              onClick={togglePlay}
-              className="w-full h-full object-cover cursor-pointer"
+          {useEmbed && activeEmbedUrl ? (
+            <iframe
+              src={activeEmbedUrl}
+              title={video.title}
+              className="w-full h-full border-0 rounded-xl bg-black"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              scrolling="no"
             />
+          ) : proxyVideoUrl ? (
+            <>
+              <video
+                ref={videoRef}
+                src={proxyVideoUrl}
+                poster={video.coverUrl}
+                loop={!showTrimmer}
+                playsInline
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                onClick={togglePlay}
+                className="w-full h-full object-cover cursor-pointer"
+              />
+
+              {/* Play Overlay Button */}
+              {!isPlaying && (
+                <button
+                  onClick={togglePlay}
+                  className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-rose-600/90 text-white flex items-center justify-center shadow-lg shadow-rose-600/40 hover:scale-105 active:scale-95 transition-all cursor-pointer z-10"
+                >
+                  <Play className="w-6 h-6 fill-current ml-0.5" />
+                </button>
+              )}
+
+              {/* Bottom Custom Control Bar */}
+              <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
+                {/* Timeline Scrubber */}
+                <input
+                  type="range"
+                  min={0}
+                  max={duration || 15}
+                  step={0.1}
+                  value={currentTime}
+                  onChange={handleSeek}
+                  className="w-full h-1.5 bg-slate-700/80 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                />
+
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <div className="flex items-center gap-2">
+                    <button onClick={togglePlay} className="hover:text-white cursor-pointer">
+                      {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
+                    </button>
+                    <button onClick={toggleMute} className="hover:text-white cursor-pointer">
+                      {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4" />}
+                    </button>
+                    <span className="font-mono text-[11px] text-slate-400">
+                      {formatTime(currentTime)} / {formatTime(duration)}
+                    </span>
+                  </div>
+
+                  {/* Playback speed buttons */}
+                  <div className="flex items-center gap-1 font-mono text-[10px]">
+                    {[0.75, 1, 1.5, 2].map((rate) => (
+                      <button
+                        key={rate}
+                        onClick={() => handleSpeedChange(rate)}
+                        className={`px-1.5 py-0.5 rounded cursor-pointer ${
+                          playbackRate === rate ? 'bg-rose-500 text-white font-bold' : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        {rate}x
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </>
           ) : (
             <img
               src={video.coverUrl}
@@ -136,65 +240,12 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
               className="w-full h-full object-cover"
             />
           )}
-
-          {/* Play Overlay Button */}
-          {!isPlaying && (
-            <button
-              onClick={togglePlay}
-              className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-rose-600/90 text-white flex items-center justify-center shadow-lg shadow-rose-600/40 hover:scale-105 active:scale-95 transition-all cursor-pointer z-10"
-            >
-              <Play className="w-6 h-6 fill-current ml-0.5" />
-            </button>
-          )}
-
-          {/* Bottom Custom Control Bar */}
-          <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
-            {/* Timeline Scrubber */}
-            <input
-              type="range"
-              min={0}
-              max={duration || 15}
-              step={0.1}
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-1.5 bg-slate-700/80 rounded-lg appearance-none cursor-pointer accent-rose-500"
-            />
-
-            <div className="flex items-center justify-between text-xs text-slate-300">
-              <div className="flex items-center gap-2">
-                <button onClick={togglePlay} className="hover:text-white cursor-pointer">
-                  {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
-                </button>
-                <button onClick={toggleMute} className="hover:text-white cursor-pointer">
-                  {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4" />}
-                </button>
-                <span className="font-mono text-[11px] text-slate-400">
-                  {formatTime(currentTime)} / {formatTime(duration)}
-                </span>
-              </div>
-
-              {/* Playback speed buttons */}
-              <div className="flex items-center gap-1 font-mono text-[10px]">
-                {[0.75, 1, 1.5, 2].map((rate) => (
-                  <button
-                    key={rate}
-                    onClick={() => handleSpeedChange(rate)}
-                    className={`px-1.5 py-0.5 rounded cursor-pointer ${
-                      playbackRate === rate ? 'bg-rose-500 text-white font-bold' : 'text-slate-400 hover:text-white'
-                    }`}
-                  >
-                    {rate}x
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Trimmer Trigger Button */}
         <div className="mt-3">
           <button
-            onClick={() => setShowTrimmer(!showTrimmer)}
+            onClick={handleToggleTrimmer}
             className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700/60 transition-all cursor-pointer"
           >
             <Scissors className="w-3.5 h-3.5 text-indigo-400" />
