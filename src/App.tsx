@@ -17,7 +17,7 @@ import { Download, ExternalLink, AlertCircle, CheckCircle, RefreshCw } from 'luc
 
 export default function App() {
   const [lang, setLang] = useState<'en' | 'bn'>(() => {
-    return (localStorage.getItem('omnireel_lang') as 'en' | 'bn') || 'bn';
+   return (localStorage.getItem('omnireel_lang') as 'en' | 'bn') || 'en';
   });
   const [url, setUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
