@@ -46,7 +46,7 @@ function extractYouTubeId(url: string): string | null {
 
 // Helper: Extract Instagram Shortcode
 function extractInstagramCode(url: string): string | null {
-  const match = url.match(/(?:reel|reels|p)\/([a-zA-Z0-9_-]+)/);
+  const match = url.match(/(?:reel|reels|p|share\/reel)\/([a-zA-Z0-9_-]+)/i);
   return match ? match[1] : null;
 }
 
