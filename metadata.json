@@ -1,0 +1,8 @@
+{
+  "name": "Remix OmniReel Downloader \u0026 AI Studio",
+  "description": "High-speed video downloader for Facebook Reels, YouTube Shorts, Instagram Reels \u0026 TikTok with live HD preview, audio extraction, and AI viral captions \u0026 repurposing tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
