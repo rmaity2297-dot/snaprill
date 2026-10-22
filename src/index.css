@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
+
+/* Subtle continuous 3D floating animation */
+@keyframes float3d {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotateX(1deg) rotateY(-1deg);
+  }
+}
+
+/* Subtle ambient pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.03);
+  }
+}
+
+/* Smooth word-by-word reveal keyframe */
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Gentle animated gradient shimmer for text highlight */
+@keyframes textShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-float-3d {
+  animation: float3d 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animate-word-in {
+  animation: wordIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.shimmer-gradient-text {
+  background: linear-gradient(90deg, #f43f5e, #ec4899, #a855f7, #6366f1, #f43f5e);
+  background-size: 300% 300%;
+  animation: textShimmer 6s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Mobile & Android Touch Optimization */
+html, body {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 3D Interactive Card with subtle tilt and light reflection */
+.tilt-card-3d {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tilt-card-3d:hover {
+    transform: perspective(1000px) rotateX(1.8deg) rotateY(-1.5deg) translateY(-4px);
+    box-shadow: 0 20px 45px -15px rgba(244, 63, 94, 0.25), 0 0 25px 1px rgba(99, 102, 241, 0.15);
+    border-color: rgba(244, 63, 94, 0.4);
+  }
+}
+
+/* 3D Interactive Option / Button with depth */
+.btn-3d {
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-3d:hover {
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.3);
+  }
+}
+
+.btn-3d:active {
+  transform: translateY(1px) scale(0.985);
+  box-shadow: 0 4px 10px -2px rgba(244, 63, 94, 0.2);
+}
+
