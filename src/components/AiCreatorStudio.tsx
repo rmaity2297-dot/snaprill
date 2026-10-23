@@ -326,14 +326,14 @@ viral edit
 #${safeTag} #${authorTag} #FYP #ForYou #ForYouPage #Viral #Trending #TikTok #TikTokViral #TikTokTrend #TrendingSound #TransitionTrend #FYPChallenge #ViralVideo #TikTokIndia #ExplorePage #TrendAlert #CleanEdit #TikTokFamous #TrendingNow #FYPViral #FYPPage #DailyTikTok #ContentCreator`;
   };
 
-  const handleGenerate = async (targetPlatform: string) => {
+ const handleGenerate = async (targetPlatform: string) => {
     setLoadingPlatform(targetPlatform);
 
-    // Call parent handler
-    onGenerate(targetPlatform);
-
     try {
-      const resp = await fetch('/api/ai-analyze', {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Fetch timeout')), 2500)
+      );
+      const fetchPromise = fetch('/api/ai-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -343,8 +343,9 @@ viral edit
           author: author,
           language: lang,
         }),
-      });
-      const resJson = await resp.json();
+      }).then((r) => r.json());
+
+      const resJson: any = await Promise.race([fetchPromise, timeoutPromise]);
       if (resJson && resJson.success && resJson.data && resJson.data.formattedContent) {
         setGeneratedFormats((prev) => ({
           ...prev,
@@ -354,10 +355,10 @@ viral edit
         return;
       }
     } catch (e) {
-      console.warn('API analyze request error:', e);
+      console.warn('API analyze request error or timeout, applying instant fallback:', e);
     }
 
-    // Instant fallback guarantee
+    // Instant fallback guarantee with 100% complete formatted structure
     const fallbackText = createInstantFormat(targetPlatform);
     setGeneratedFormats((prev) => ({
       ...prev,
@@ -365,7 +366,6 @@ viral edit
     }));
     setLoadingPlatform(null);
   };
-
   const activeContent =
     generatedFormats[selectedPlatform] ||
     (analysis && (analysis.platform || '').toLowerCase() === selectedPlatform.toLowerCase()
