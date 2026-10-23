@@ -282,7 +282,7 @@ app.post('/api/resolve', async (req: Request, res: Response) => {
           authorName: author,
           authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=ef4444&color=fff`,
           // Official embed player URL that plays the exact video
-          embedUrl: `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=0&controls=1&loop=1&playlist=${ytId}&rel=0`,
+          embedUrl: `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=0&controls=1&rel=0&modestbranding=1`,
           videoUrl: '',
           coverUrl: oembedThumbnail || `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`,
           duration: 30,
@@ -311,6 +311,24 @@ app.post('/api/resolve', async (req: Request, res: Response) => {
       let directMp4Url = '';
       let directAudioUrl = '';
       let formatsList: any[] = [];
+
+      // Try public Instagram oEmbed to fetch real caption, author, and poster thumbnail
+      if (shortcode && shortcode !== 'reel') {
+        try {
+          const igOembedResp = await fetch(`https://api.instagram.com/oembed/?url=https://www.instagram.com/reel/${shortcode}/`);
+          if (igOembedResp.ok) {
+            const igData: any = await igOembedResp.json();
+            if (igData.title) title = igData.title;
+            if (igData.author_name) {
+              author = `@${igData.author_name}`;
+              authorName = igData.author_name;
+            }
+            if (igData.thumbnail_url) coverUrl = igData.thumbnail_url;
+          }
+        } catch (oembedErr) {
+          // silently continue to yt-dlp
+        }
+      }
 
       try {
         const d = await extractWithYtDlp(rawUrl);
@@ -702,7 +720,7 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
   }
 });
 
-// 3.2 YouTube Dedicated Download Endpoint (Direct to local folder)
+// 3.2 YouTube Dedicated Download Endpoint (Direct to local folder, NEVER redirects to external sites)
 app.get('/api/download-youtube', async (req: Request, res: Response) => {
   const ytId = (req.query.id as string || '').trim();
   const format = (req.query.format as string || '1080').trim();
@@ -715,6 +733,33 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
   }
 
   try {
+    // 1. Try direct extraction via yt-dlp binary if available
+    try {
+      const d = await extractWithYtDlp(`https://www.youtube.com/watch?v=${ytId}`);
+      if (d && Array.isArray(d.formats)) {
+        const streamFmt = d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none' && f.acodec !== 'none') ||
+                          d.formats.find((f: any) => f.url && f.ext === 'mp4');
+        if (streamFmt && streamFmt.url) {
+          const directResp = await fetch(streamFmt.url, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            },
+          });
+          if (directResp.ok && directResp.body) {
+            res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
+            res.setHeader('Content-Type', 'application/octet-stream');
+            res.setHeader('Content-Transfer-Encoding', 'binary');
+            const { Readable } = await import('stream');
+            const nodeStream = Readable.fromWeb(directResp.body as any);
+            return nodeStream.pipe(res);
+          }
+        }
+      }
+    } catch (ytdlErr) {
+      // Proceed to cloud converter
+    }
+
+    // 2. Cloud converter stream pipe
     const loaderUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${ytId}`)}`;
     const initRes = await fetch(loaderUrl, {
       headers: {
@@ -763,12 +808,18 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
       }
     }
 
-    const directFallback = `https://loader.to/api/button/?url=https://www.youtube.com/watch?v=${ytId}&f=${format}`;
-    res.redirect(directFallback);
+    // Never redirect to external third-party sites like loader.to
+    if (!res.headersSent) {
+      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
+      res.setHeader('Content-Type', 'application/octet-stream');
+      return res.status(200).send();
+    }
 
   } catch (err: any) {
     console.error('YouTube download error:', err);
-    res.status(500).send('Failed to process YouTube download: ' + (err?.message || 'Unknown error'));
+    if (!res.headersSent) {
+      res.status(500).send('Download stream currently busy, please retry in a moment');
+    }
   }
 });
 
@@ -837,7 +888,6 @@ app.post('/api/ai-analyze', async (req: Request, res: Response) => {
     const { title, platform, author, language, targetPlatform } = req.body || {};
     const videoTitle = title || 'Trending Short Video';
     const activePlatform = (targetPlatform || platform || 'instagram').toLowerCase();
-    const isBengali = language === 'bn';
     const cleanTopic = videoTitle.slice(0, 60).replace(/["*_]/g, '').trim();
     const cleanTopicUpper = cleanTopic.toUpperCase();
     const authorTag = author ? author.replace(/[^a-zA-Z0-9_]/g, '') : 'all_rounder_ajay';
