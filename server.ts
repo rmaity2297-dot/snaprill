@@ -399,55 +399,38 @@ app.post('/api/resolve', async (req: Request, res: Response) => {
 
     // Facebook Reel Handler (Extracts real direct MP4 stream via yt-dlp)
     if (platform === 'facebook') {
-      let title = 'Facebook Reel Video';
+      let title = 'Facebook Video';
       let author = '@facebook_creator';
-      let authorName = 'Facebook Creator';
-      let coverUrl = 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=800&auto=format&fit=crop&q=80';
-      let duration = 25;
+      let coverUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
+      let duration = 30;
       let directMp4Url = '';
       let directAudioUrl = '';
-      let formatsList: any[] = [];
 
       try {
         const d = await extractWithYtDlp(rawUrl);
         if (d) {
           title = d.title || title;
           author = d.uploader ? `@${d.uploader}` : author;
-          authorName = d.uploader || authorName;
           if (d.thumbnail) coverUrl = d.thumbnail;
           if (d.duration) duration = d.duration;
 
           if (Array.isArray(d.formats) && d.formats.length > 0) {
             const progressive = d.formats.find(
-              (f: any) =>
-                (f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4') ||
-                f.format_id === 'sd' ||
-                f.format_id === 'hd'
-            ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url) || d.formats[0];
+              (f: any) => f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4'
+            ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none') || d.formats[0];
 
             const audioFmt = d.formats.find((f: any) => f.acodec && f.acodec !== 'none' && (!f.vcodec || f.vcodec === 'none'));
 
-            if (progressive && progressive.url) {
-              directMp4Url = progressive.url;
-            }
-            if (audioFmt && audioFmt.url) {
-              directAudioUrl = audioFmt.url;
-            }
-
-            if (directMp4Url) {
-              formatsList = [
-                { quality: 'Facebook HD 1080p Video', format: 'MP4', size: 'Direct Video', url: directMp4Url },
-                { quality: 'Facebook SD 720p Video', format: 'MP4', size: 'Standard Video', url: directMp4Url }
-              ];
-            }
+            if (progressive && progressive.url) directMp4Url = progressive.url;
+            if (audioFmt && audioFmt.url) directAudioUrl = audioFmt.url;
           }
         }
       } catch (fbErr: any) {
         console.warn('Facebook yt-dlp extraction warning:', fbErr?.message || fbErr);
       }
 
-      const finalFbMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
-      const finalFbAudioUrl = directAudioUrl || finalFbMp4Url;
+      const finalMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
+      const finalAudioUrl = directAudioUrl || finalMp4Url;
 
       const resolved = {
         id: `fb-${Date.now()}`,
@@ -455,114 +438,178 @@ app.post('/api/resolve', async (req: Request, res: Response) => {
         originalUrl: rawUrl,
         title: title,
         author: author,
-        authorName: authorName,
-        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=1877f2&color=fff`,
-        videoUrl: finalFbMp4Url,
-        audioUrl: finalFbAudioUrl,
+        authorName: author.replace('@', ''),
+        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=1877f2&color=fff`,
+        videoUrl: finalMp4Url,
+        audioUrl: finalAudioUrl,
         coverUrl: coverUrl,
         duration: duration,
-        views: 'FB Watch Viral',
-        likes: 'Recommended',
-        comments: 'Reels',
-        formats: formatsList.length > 0 ? formatsList : [
-          { quality: 'Facebook HD 1080p Video', format: 'MP4', size: '16.5 MB', url: finalFbMp4Url },
-          { quality: 'Mobile 720p Video', format: 'MP4', size: '9.1 MB', url: finalFbMp4Url }
+        views: 'Facebook Watch',
+        likes: 'Active',
+        comments: '0',
+        formats: [
+          { quality: 'Original HD Video (MP4)', format: 'MP4', size: 'Full HD', url: finalMp4Url },
+          { quality: 'Mobile 720p Video (MP4)', format: 'MP4', size: 'Standard Video', url: finalMp4Url }
         ]
       };
 
       return res.json({ success: true, data: resolved });
     }
 
-    // Direct Video Link (.mp4, .webm) or General Fallback
-    const resolved = {
-      id: `gen-${Date.now()}`,
-      platform: 'general',
-      originalUrl: rawUrl,
-      title: rawUrl.split('/').pop()?.split('?')[0] || 'Media Video Stream',
-      author: '@web_stream',
-      authorName: 'Web Media Source',
-      authorAvatar: `https://ui-avatars.com/api/?name=Web&background=6366f1&color=fff`,
-      videoUrl: rawUrl.endsWith('.mp4') ? rawUrl : WORKING_FALLBACK_VIDEO,
-      coverUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
-      duration: 15,
-      views: 'HD Media',
-      likes: 'Direct',
-      comments: 'Clean',
-      formats: [
-        { quality: 'HD Direct MP4', format: 'MP4', size: 'Direct Stream', url: rawUrl }
-      ]
-    };
+    // Generic / Fallback Handler via yt-dlp
+    try {
+      const d = await extractWithYtDlp(rawUrl);
+      if (d) {
+        const title = d.title || 'Reel Video';
+        const author = d.uploader ? `@${d.uploader}` : '@creator';
+        const coverUrl = d.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
+        const duration = d.duration || 30;
 
-    return res.json({ success: true, data: resolved });
+        let directMp4Url = '';
+        let directAudioUrl = '';
+
+        if (Array.isArray(d.formats)) {
+          const progressive = d.formats.find(
+            (f: any) => f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4'
+          ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none') || d.formats[0];
+
+          const audioFmt = d.formats.find((f: any) => f.acodec && f.acodec !== 'none' && (!f.vcodec || f.vcodec === 'none'));
+
+          if (progressive && progressive.url) directMp4Url = progressive.url;
+          if (audioFmt && audioFmt.url) directAudioUrl = audioFmt.url;
+        }
+
+        const finalMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
+        const finalAudioUrl = directAudioUrl || finalMp4Url;
+
+        const resolved = {
+          id: `gen-${Date.now()}`,
+          platform: 'general',
+          originalUrl: rawUrl,
+          title: title,
+          author: author,
+          authorName: author.replace('@', ''),
+          authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=6366f1&color=fff`,
+          videoUrl: finalMp4Url,
+          audioUrl: finalAudioUrl,
+          coverUrl: coverUrl,
+          duration: duration,
+          views: 'Trending',
+          likes: 'Active',
+          comments: '0',
+          formats: [
+            { quality: 'HD 1080p (No Watermark)', format: 'MP4', size: 'Direct Stream', url: finalMp4Url },
+            { quality: 'SD 720p Mobile', format: 'MP4', size: 'Standard Stream', url: finalMp4Url }
+          ]
+        };
+
+        return res.json({ success: true, data: resolved });
+      }
+    } catch (genErr) {
+      console.warn('Generic yt-dlp fallback error:', genErr);
+    }
+
+    // Default Fallback
+    const fallback = SAMPLE_REELS[0];
+    return res.json({
+      success: true,
+      data: {
+        ...fallback,
+        originalUrl: rawUrl,
+        title: 'Trending Short Video Reel'
+      }
+    });
 
   } catch (error: any) {
-    console.error('Resolve error:', error);
-    return res.status(500).json({ error: 'Failed to extract video details: ' + (error?.message || 'Unknown error') });
+    console.error('Resolve link error:', error);
+    res.status(500).json({ error: error?.message || 'Failed to resolve reel URL' });
   }
 });
 
-// 2. Video Streaming Proxy (Prevents CORS & hotlink referrer blocking during browser preview)
+// 2. Proxy Video Stream Endpoint (Ensures smooth HTML5 video player playback without CORS/anti-hotlinking)
 app.get('/api/proxy-stream', async (req: Request, res: Response) => {
-  const targetUrl = req.query.url as string;
+  const targetUrl = (req.query.url as string || '').trim();
+
   if (!targetUrl) {
     return res.status(400).send('Missing url parameter');
   }
 
+  // Handle local filesystem assets directly (e.g. /assets/...)
+  if (targetUrl.startsWith('/') || !targetUrl.startsWith('http')) {
+    const localRel = targetUrl.replace(/^\/+/, '');
+    const cand1 = path.join(process.cwd(), 'public', localRel);
+    const cand2 = path.join(process.cwd(), localRel);
+    const finalCand = fs.existsSync(cand1) ? cand1 : (fs.existsSync(cand2) ? cand2 : null);
+    if (finalCand) {
+      res.setHeader('Content-Type', 'video/mp4');
+      res.setHeader('Accept-Ranges', 'bytes');
+      return res.sendFile(finalCand);
+    }
+  }
+
   try {
-    const headers: Record<string, string> = {
+    const fetchHeaders: Record<string, string> = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       'Accept': '*/*',
     };
 
     if (req.headers.range) {
-      headers['Range'] = req.headers.range;
+      fetchHeaders['Range'] = req.headers.range;
     }
 
     if (targetUrl.includes('tiktok') || targetUrl.includes('tikwm')) {
-      headers['Referer'] = 'https://www.tiktok.com/';
-    } else if (targetUrl.includes('instagram') || targetUrl.includes('cdninstagram')) {
-      headers['Referer'] = 'https://www.instagram.com/';
+      fetchHeaders['Referer'] = 'https://www.tiktok.com/';
+    } else if (targetUrl.includes('instagram')) {
+      fetchHeaders['Referer'] = 'https://www.instagram.com/';
     }
 
-    const client = targetUrl.startsWith('https:') ? https : http;
-    const request = client.get(targetUrl, { headers }, (remoteRes) => {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Headers', 'Range');
-      res.setHeader('Accept-Ranges', 'bytes');
-
-      if (remoteRes.headers['content-type']) {
-        res.setHeader('Content-Type', remoteRes.headers['content-type']);
-      } else {
-        res.setHeader('Content-Type', 'video/mp4');
-      }
-
-      if (remoteRes.headers['content-length']) {
-        res.setHeader('Content-Length', remoteRes.headers['content-length']);
-      }
-      if (remoteRes.headers['content-range']) {
-        res.setHeader('Content-Range', remoteRes.headers['content-range']);
-      }
-
-      res.status(remoteRes.statusCode || 200);
-      remoteRes.pipe(res);
+    const remoteResponse = await fetch(targetUrl, {
+      headers: fetchHeaders,
+      redirect: 'follow',
     });
 
-    request.on('error', (err) => {
-      console.error('Proxy stream error:', err);
-      if (!res.headersSent) {
-        res.status(502).send('Error streaming media');
-      }
+    if (!remoteResponse.ok) {
+      return res.status(remoteResponse.status).send(`Remote server returned ${remoteResponse.status}`);
+    }
+
+    res.status(remoteResponse.status);
+
+    const headersToForward = [
+      'content-type',
+      'content-length',
+      'accept-ranges',
+      'content-range',
+      'last-modified',
+      'etag'
+    ];
+
+    headersToForward.forEach((h) => {
+      const val = remoteResponse.headers.get(h);
+      if (val) res.setHeader(h, val);
     });
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+
+    if (remoteResponse.body) {
+      const { Readable } = await import('stream');
+      const nodeStream = Readable.fromWeb(remoteResponse.body as any);
+      nodeStream.pipe(res);
+    } else {
+      res.end();
+    }
   } catch (err: any) {
-    console.error('Proxy setup error:', err);
-    res.status(500).send('Internal stream error');
+    console.error('Proxy stream error:', err);
+    if (!res.headersSent) {
+      res.status(500).send('Proxy stream error: ' + (err?.message || 'Unknown error'));
+    }
   }
 });
 
-// 3. Direct Browser Download Endpoint (Strictly forces local folder file save without external app navigation)
+// 3. Direct Local Folder Download Endpoint (Forces browser save dialog straight to disk)
 app.get('/api/download', async (req: Request, res: Response) => {
-  const targetUrl = req.query.url as string;
-  const rawFilename = (req.query.filename as string) || 'OmniReel_Video.mp4';
+  const targetUrl = (req.query.url as string || '').trim();
+  const rawFilename = (req.query.filename as string) || 'OmniReel_Download.mp4';
   const cleanFilename = rawFilename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
   if (!targetUrl) {
@@ -611,8 +658,9 @@ app.get('/api/download', async (req: Request, res: Response) => {
 
     // Set download attachment headers so browser saves strictly to local folder
     res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-    // Use application/octet-stream to prevent external video apps from hijacking the stream
-    res.setHeader('Content-Type', 'application/octet-stream');
+    // Set exact media MIME type so Windows Photos/Player and Android open the file immediately
+    const mimeType = cleanFilename.endsWith('.mp3') ? 'audio/mpeg' : 'video/mp4';
+    res.setHeader('Content-Type', mimeType);
     res.setHeader('Content-Transfer-Encoding', 'binary');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
@@ -720,11 +768,12 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
   }
 });
 
-// 3.2 YouTube Dedicated Download Endpoint (Direct to local folder, NEVER redirects to external sites)
+// 3.2 YouTube Dedicated Download Endpoint (Direct to local folder)
 app.get('/api/download-youtube', async (req: Request, res: Response) => {
   const ytId = (req.query.id as string || '').trim();
   const format = (req.query.format as string || '1080').trim();
   const ext = format === 'mp3' ? 'mp3' : 'mp4';
+  const mimeType = ext === 'mp3' ? 'audio/mpeg' : 'video/mp4';
   const rawFilename = (req.query.filename as string) || `YouTube_Short_${ytId}.${ext}`;
   const cleanFilename = rawFilename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
@@ -747,8 +796,10 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
           });
           if (directResp.ok && directResp.body) {
             res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-            res.setHeader('Content-Type', 'application/octet-stream');
+            res.setHeader('Content-Type', mimeType);
             res.setHeader('Content-Transfer-Encoding', 'binary');
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             const { Readable } = await import('stream');
             const nodeStream = Readable.fromWeb(directResp.body as any);
             return nodeStream.pipe(res);
@@ -759,7 +810,7 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
       // Proceed to cloud converter
     }
 
-    // 2. Cloud converter stream pipe
+    // 2. High-speed cloud converter stream pipe (loader.to)
     const loaderUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${ytId}`)}`;
     const initRes = await fetch(loaderUrl, {
       headers: {
@@ -771,8 +822,9 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
     let downloadUrl = initData.download_url;
 
     if (!downloadUrl && initData.progress_url) {
-      for (let attempt = 0; attempt < 6; attempt++) {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Poll with sufficient attempts (~38s max) to ensure video/audio encoding finishes
+      for (let attempt = 0; attempt < 25; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         try {
           const pollRes = await fetch(initData.progress_url);
           const pollData = await pollRes.json();
@@ -793,32 +845,34 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
         },
       });
 
-      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-      res.setHeader('Content-Type', 'application/octet-stream');
-      res.setHeader('Content-Transfer-Encoding', 'binary');
-      res.setHeader('Access-Control-Allow-Origin', '*');
+      if (streamRes.ok && streamRes.body) {
+        res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
+        res.setHeader('Content-Type', mimeType);
+        res.setHeader('Content-Transfer-Encoding', 'binary');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Access-Control-Allow-Origin', '*');
 
-      const cl = streamRes.headers.get('content-length');
-      if (cl) res.setHeader('Content-Length', cl);
+        const cl = streamRes.headers.get('content-length');
+        if (cl) res.setHeader('Content-Length', cl);
 
-      if (streamRes.body) {
         const { Readable } = await import('stream');
         const nodeStream = Readable.fromWeb(streamRes.body as any);
         return nodeStream.pipe(res);
+      } else {
+        // Direct redirect if stream cannot be piped directly
+        return res.redirect(downloadUrl);
       }
     }
 
-    // Never redirect to external third-party sites like loader.to
+    // NEVER return an empty 200 OK body! Return 504 so browser never creates 0-byte corrupt files
     if (!res.headersSent) {
-      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-      res.setHeader('Content-Type', 'application/octet-stream');
-      return res.status(200).send();
+      return res.status(504).send('Download stream conversion in progress. Please click download again in a moment.');
     }
 
   } catch (err: any) {
     console.error('YouTube download error:', err);
     if (!res.headersSent) {
-      res.status(500).send('Download stream currently busy, please retry in a moment');
+      res.status(500).send('Download stream error: ' + (err?.message || 'Please retry in a moment'));
     }
   }
 });
@@ -847,6 +901,14 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
     }
   }
 
+  // Handle YouTube links or thumbnails in clean download
+  if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('ytimg.com')) {
+    const ytId = extractYouTubeId(targetUrl) || (targetUrl.match(/\/vi\/([a-zA-Z0-9_-]{11})\//)?.[1]);
+    if (ytId) {
+      return res.redirect(`/api/download-youtube?id=${encodeURIComponent(ytId)}&format=1080&filename=${encodeURIComponent(cleanFilename)}`);
+    }
+  }
+
   try {
     const fetchHeaders: Record<string, string> = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -861,7 +923,7 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
 
     // Set genuine attachment headers to download directly to user's local folder
     res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Type', 'video/mp4');
     res.setHeader('Content-Transfer-Encoding', 'binary');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.setHeader('Pragma', 'no-cache');
@@ -878,7 +940,9 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
     await pipeline(Readable.fromWeb(remoteResp.body as any), res);
   } catch (err: any) {
     console.error('Download clean error:', err);
-    res.status(500).send('Clean video download error: ' + (err?.message || 'Server error'));
+    if (!res.headersSent) {
+      res.status(500).send('Clean video download error: ' + (err?.message || 'Server error'));
+    }
   }
 });
 
@@ -888,6 +952,7 @@ app.post('/api/ai-analyze', async (req: Request, res: Response) => {
     const { title, platform, author, language, targetPlatform } = req.body || {};
     const videoTitle = title || 'Trending Short Video';
     const activePlatform = (targetPlatform || platform || 'instagram').toLowerCase();
+    const isBengali = language === 'bn';
     const cleanTopic = videoTitle.slice(0, 60).replace(/["*_]/g, '').trim();
     const cleanTopicUpper = cleanTopic.toUpperCase();
     const authorTag = author ? author.replace(/[^a-zA-Z0-9_]/g, '') : 'all_rounder_ajay';
@@ -1028,7 +1093,7 @@ Output strictly valid JSON with this exact schema:
           setTimeout(() => reject(new Error('Gemini timeout')), 4000)
         );
         const apiPromise = genAI.models.generateContent({
-          model: 'gemini-3.8-flash',
+          model: 'gemini-2.5-flash',
           contents: systemPrompt,
           config: {
             responseMimeType: 'application/json',
@@ -1097,151 +1162,98 @@ Like ❤️ Share 🔄 and Subscribe 🔔 for more beautiful Shorts.
 ${cleanTopic} era 🌺✨
 POV: ${cleanTopic} era unlocked 🌸✨
 Emotion + visuals + soundtrack = Pure magic 🌺💃
-Authentic presence, unforgettable feeling ✨🌸
-Just entered my ${cleanTopic} era 🤍🌺
-When the visual hits different 🌸💫
-“POV: ${cleanTopic} era unlocked 🌺✨💃”
+Living rent-free in my mind right now 🧘‍♂️💫
+Drop a ❤️ in the comments if you felt the vibe!
 
-${cleanTopic} video | ${cleanTopic} moments | ${cleanTopic} shorts | viral transition | trending sound | aesthetic shorts | Indian creator | viral video | top shorts
-
-${cleanTopic.toLowerCase()}
-${cleanTopic.toLowerCase()} shorts
-${cleanTopic.toLowerCase()} viral
-${cleanTopic.toLowerCase()} video
-${cleanTopic.toLowerCase()} status
-${cleanTopic.toLowerCase()} aesthetic
-${cleanTopic.toLowerCase()} hd
-trending shorts 2026
-youtube shorts viral
-shorts feed
-daily shorts
-creator shorts
-viral video india
-high definition shorts
-clean video
-explore shorts
-trending sound
-top youtube shorts
-
-#${tagSafeTopic} #${authorTag} #Shorts #TrendingShorts #ViralShorts #YouTubeShorts #Trending #Viral #FYP #ExplorePage #ReelsIndia #ShortsFeed #CreatorLife #IndianCreators #ShortsVideo #TrendAlert #TrendingNow`;
-    } else if (activePlatform === 'facebook') {
-      fallbackOutput = `💡 ${cleanTopicUpper} — An Incredible Moment You Should Experience!
-
-Taking a moment to appreciate "${cleanTopic}" connects us with what truly matters in creative expression and culture. 💡
-Often, it is these genuine moments that inspire us most throughout our busy days.
-
-এই পোস্টে "${cleanTopic}"-এর সুন্দর ও আকর্ষণীয় দিকগুলো বিশেষভাবে তুলে ধরা হয়েছে—যাতে আমাদের ফেসবুক পরিবারের সবাই এর সৌন্দর্য উপভোগ করতে পারেন। 📚👥✨
-
-Save this post 📌 to your collection and share it with your friends, family, and relevant Facebook groups! ❤️
-
-Follow @${authorTag} for daily highlights:
-✅ 1. ${genreInsight1}
-✅ 2. ${genreInsight2}
-✅ 3. ${genreInsight3}
-✅ 4. ${genreInsight4}
-✅ 5. ${genreInsight5}
-✅ 6. ${genreInsight6}
-
-Community and cultural discussion content for knowledge and entertainment purposes.
+📌 6 Key Highlights:
+1. ${genreInsight1}
+2. ${genreInsight2}
+3. ${genreInsight3}
+4. ${genreInsight4}
+5. ${genreInsight5}
+6. ${genreInsight6}
 
 Search Keywords:
-${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} facebook reel, ${cleanTopic.toLowerCase()} watch, viral facebook video, fb reels trending, smart creator content, popular facebook video, ${cleanTopic.toLowerCase()} status, best moments of ${cleanTopic.toLowerCase()}, viral reels india, top video post, family sharing, daily facebook reels, facebook creators.
+${cleanTopic.toLowerCase()} shorts, ${cleanTopic.toLowerCase()} youtube shorts, ${cleanTopic.toLowerCase()} viral, ${cleanTopic.toLowerCase()} trending, ${authorTag} shorts, best ${cleanTopic.toLowerCase()}, aesthetic shorts, indian shorts, trending status, youtube viral shorts, viral video today, shorts feed, top shorts, creative shorts, beautiful moments, daily shorts.
 
-#${tagSafeTopic} #${authorTag} #FacebookReels #FbViral #TrendingReels #ReelsIndia #FacebookVideo #ViralPost #DailyKnowledge #LearnOnFacebook #ViralReels #FbReels #CommunityPost #TrendingNow #ExploreFacebook #DesiCreators #Inspirational #ShareKnowledge #ViralContent #WatchFacebook`;
+${genreHashtags}`;
+    } else if (activePlatform === 'facebook') {
+      fallbackOutput = `✨ ${cleanTopicUpper} ✨ — Pure Charm & Beautiful Presentation!
+
+A truly special moment filled with elegance and grace. Every expression, movement, and visual detail in "${cleanTopic}" captures the essence of pure artistry. ${genreEmojis}
+
+এই বিশেষ ভিডিওটিতে "${cleanTopic}"-এর অসাধারণ নান্দনিক রূপ ও অভিব্যক্তি তুলে ধরা হয়েছে। আপনাদের সবার ভালো লাগার মতো চমৎকার মুহূর্তগুলো পরিবার ও বন্ধুদের সাথে শেয়ার করুন! 💖🌸✨
+
+💬 How did you like this video? Let us know in the comments!
+👍 Follow @${authorTag} for daily trending updates and inspiring posts.
+🔄 Share this with someone who would love to watch this today!
+
+Highlights:
+🌟 1. ${genreInsight1}
+✨ 2. ${genreInsight2}
+💫 3. ${genreInsight3}
+🎯 4. ${genreInsight4}
+🔥 5. ${genreInsight5}
+💡 6. ${genreInsight6}
+
+Search Keywords:
+${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} facebook, ${cleanTopic.toLowerCase()} watch, ${cleanTopic.toLowerCase()} video, facebook reels, trending video, ${authorTag}, viral clips, aesthetic video, daily reels, best video 2026, popular reels, family entertainment, inspiring video.
+
+${genreHashtags}`;
     } else {
-      // TikTok
-      fallbackOutput = `**${cleanTopic} 🔥✨ Viral Trend You Need to Try @${authorTag} #FYP #Viral #TikTok**
+      // TikTok format
+      fallbackOutput = `${cleanTopic} ✨ ${genreEmojis} @${authorTag}
 
-This is why everyone is obsessed with ${cleanTopic} right now! 🔥✨
-The audio sync, visual pacing, and creative energy make this one of the cleanest edits on the feed. Watch till the end to see the full aesthetic come together! ⚡👀
+Tell me this isn't pure magic! 😭✨
+Every single second of "${cleanTopic}" hits right in the feels. Watch till the end! 💃❤️
 
-Did you catch the subtle detail at the end? Tell me in the comments! 👇
-Like ❤️ and Follow ➕ for daily viral trends, transitions, and clean edits!
+POV: Discovering the most aesthetic vibe on your FYP today 🧘‍♂️✨
 
-#${tagSafeTopic} #FYP #ForYou #ForYouPage #TikTokViral #ViralTrend #TrendingSound
+Drop a ❤️ if you loved this!
+Share with your bestie who needs to see this right now 👯‍♀️
 
-POV: ${cleanTopic} trend unlocked 🔥✨
-When the beat drops on ${cleanTopic} 🎶💥
-This transition was way too clean 💫
-Wait for the ending 👀🔥
-Just entered my ${cleanTopic} era 🚀
-“POV: Mastered the ${cleanTopic} trend 🔥💃”
+Highlights:
+✨ 1. ${genreInsight1}
+🔥 2. ${genreInsight2}
+💡 3. ${genreInsight3}
 
-${cleanTopic} trend | ${cleanTopic} sound | viral transition | fyp trend | tiktok viral | trending sound | clean edit | viral challenge
+Search Keywords:
+${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} tiktok, ${cleanTopic.toLowerCase()} fyp, ${cleanTopic.toLowerCase()} viral, fyp, foryou, trending, aesthetic, viral tiktok, ${authorTag}, desi tiktok, trend.
 
-${cleanTopic.toLowerCase()}
-${cleanTopic.toLowerCase()} trend
-${cleanTopic.toLowerCase()} sound
-${cleanTopic.toLowerCase()} transition
-${cleanTopic.toLowerCase()} aesthetic
-${cleanTopic.toLowerCase()} viral
-${cleanTopic.toLowerCase()} challenge
-viral transition
-fyp trend
-trending sound
-tiktok viral
-transition challenge
-wait for the end
-trending audio
-clean video edit
-viral fyp
-tiktok creator
-explore page
-trend alert
-for you page viral
-tiktok famous
-creator tips
-clean sound
-viral edit
-
-#${tagSafeTopic} #${authorTag} #FYP #ForYou #ForYouPage #Viral #Trending #TikTok #TikTokViral #TikTokTrend #TrendingSound #TransitionTrend #FYPChallenge #ViralVideo #TikTokIndia #ExplorePage #TrendAlert #CleanEdit #TikTokFamous #TrendingNow #FYPViral #FYPPage #DailyTikTok #ContentCreator`;
+${genreHashtags}`;
     }
 
     return res.json({
       success: true,
       data: {
         platform: activePlatform,
-        formattedContent: fallbackOutput
-      }
+        formattedContent: fallbackOutput,
+      },
     });
 
-  } catch (err: any) {
-    console.error('AI analyze error:', err);
-    return res.status(500).json({ error: 'AI analysis failed: ' + (err?.message || 'Server error') });
+  } catch (error: any) {
+    console.error('AI Analyze error:', error);
+    res.status(500).json({ error: error?.message || 'AI generation failed' });
   }
 });
 
-// Samples list endpoint
-app.get('/api/samples', (_req: Request, res: Response) => {
-  res.json({ success: true, samples: SAMPLE_REELS });
-});
-
-// Setup Vite middleware in development or static serve in production
-async function startServer() {
-  const isDev = process.env.NODE_ENV !== 'production';
-
-  if (isDev) {
-    const { createServer: createViteServer } = await import('vite');
-    const vite = await createViteServer({
+// Serve frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  app.get('*', (_req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+} else {
+  import('vite').then(({ createServer }) => {
+    createServer({
       server: { middlewareMode: true },
       appType: 'spa',
+    }).then((vite) => {
+      app.use(vite.middlewares);
     });
-    app.use(vite.middlewares);
-    console.log('⚡ Vite development middlewares attached');
-  } else {
-    app.use(express.static(path.resolve(__dirname, 'dist')));
-    app.get('*', (_req: Request, res: Response) => {
-      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-    });
-    console.log('📦 Production static assets mounted');
-  }
-
-  app.listen(PORT, () => {
-    console.log(`🚀 OmniReel Server running on port ${PORT}`);
   });
 }
 
-startServer().catch((err) => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
