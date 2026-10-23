@@ -51,7 +51,7 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
   const activeEmbedUrl = getEmbedUrl();
 
   // Stream proxy URL for seamless HTML5 video playback without CORS blocking
-  const rawVideoSrc = video.videoUrl || 'https://vjs.zencdn.net/v/oceans.mp4';
+  const rawVideoSrc = hasDirectStream ? video.videoUrl! : '';
   const proxyVideoUrl = rawVideoSrc.startsWith('http') && !rawVideoSrc.includes(window.location.host)
     ? `/api/proxy-stream?url=${encodeURIComponent(rawVideoSrc)}`
     : rawVideoSrc;
@@ -124,7 +124,8 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
   };
 
   const handleToggleTrimmer = () => {
-    if (!showTrimmer && useEmbed) {
+    // Only switch to custom HTML5 player if a genuine direct MP4 stream exists
+    if (!showTrimmer && useEmbed && hasDirectStream) {
       setUseEmbed(false);
     }
     setShowTrimmer(!showTrimmer);
@@ -146,7 +147,7 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
                   : 'Live Player')
               : 'Custom Player'}
           </span>
-          {activeEmbedUrl && (
+          {activeEmbedUrl && hasDirectStream && (
             <button
               onClick={() => setUseEmbed(!useEmbed)}
               className="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700/60 transition-colors cursor-pointer"
@@ -272,7 +273,7 @@ export const VideoPreviewCard: React.FC<VideoPreviewCardProps> = ({
                 onChange={(e) => {
                   const val = parseFloat(e.target.value);
                   setTrimRange([val, trimRange[1]]);
-                  if (videoRef.current) videoRef.current.currentTime = val;
+                  if (videoRef.current && hasDirectStream) videoRef.current.currentTime = val;
                 }}
                 className="w-full h-1 bg-slate-800 rounded appearance-none accent-indigo-400 cursor-pointer"
               />
