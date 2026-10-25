@@ -99,338 +99,349 @@ const WORKING_FALLBACK_VIDEO = 'https://vjs.zencdn.net/v/oceans.mp4';
 // Sample fallback videos for instant preview/testing
 const SAMPLE_REELS = [
   {
-    id: 'sample-tiktok-1',
-    platform: 'tiktok',
-    title: 'Cute Golden Retriever Puppy First Time Playing in Snow 🐾❄️',
-    author: 'golden_tails',
-    authorName: 'Golden Tails Club',
-    authorAvatar: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=150&auto=format&fit=crop&q=80',
-    videoUrl: WORKING_FALLBACK_VIDEO,
-    coverUrl: 'https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&auto=format&fit=crop&q=80',
-    audioUrl: WORKING_FALLBACK_VIDEO,
-    duration: 15,
-    views: '2.4M',
-    likes: '482K',
-    comments: '3.9K',
-    formats: [
-      { quality: 'HD 1080p (No Watermark)', format: 'MP4', size: '14.2 MB', url: WORKING_FALLBACK_VIDEO },
-      { quality: 'SD 720p Mobile', format: 'MP4', size: '7.8 MB', url: WORKING_FALLBACK_VIDEO }
-    ]
-  },
-  {
     id: 'sample-yt-1',
     platform: 'youtube',
-    title: '3 Secret iPhone Camera Hacks You Never Knew Existed 📱⚡',
-    author: 'TechSmart',
-    authorName: 'Alex Tech Hacks',
-    authorAvatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-    videoUrl: WORKING_FALLBACK_VIDEO,
-    coverUrl: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&auto=format&fit=crop&q=80',
-    audioUrl: WORKING_FALLBACK_VIDEO,
-    duration: 32,
-    views: '1.8M',
-    likes: '290K',
-    comments: '1.4K',
+    title: 'Satisfying Kinetic Sand Cutting ASMR',
+    author: '@SandMagic',
+    authorName: 'Sand Magic ASMR',
+    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    coverUrl: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80',
+    duration: 15,
+    views: '2.4M',
+    likes: '185K',
+    comments: '1.2K',
+    originalUrl: 'https://www.youtube.com/shorts/sample1',
     formats: [
-      { quality: 'HD 1080p (No Watermark)', format: 'MP4', size: '18.5 MB', url: WORKING_FALLBACK_VIDEO },
-      { quality: 'SD 720p Mobile', format: 'MP4', size: '9.2 MB', url: WORKING_FALLBACK_VIDEO }
+      { quality: 'Full HD 1080p (No Watermark)', format: 'MP4', size: '18.4 MB', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
+      { quality: 'HD 720p (Original)', format: 'MP4', size: '10.2 MB', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
+      { quality: 'Audio Only (MP3 320kbps)', format: 'MP3', size: '2.1 MB', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' },
     ]
   },
   {
-    id: 'sample-insta-1',
+    id: 'sample-ig-1',
     platform: 'instagram',
-    title: 'Hidden Sunset Viewpoint in Bali Nobody Tells You About 🌅🌴',
-    author: 'wanderlust_diaries',
-    authorName: 'Elena Travel Diaries',
-    authorAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-    videoUrl: WORKING_FALLBACK_VIDEO,
-    coverUrl: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&auto=format&fit=crop&q=80',
-    audioUrl: WORKING_FALLBACK_VIDEO,
-    duration: 24,
-    views: '950K',
-    likes: '164K',
-    comments: '880',
+    title: 'Moody Tokyo Rain Street Cinematic Loop',
+    author: '@tokyo_vibes',
+    authorName: 'Tokyo Vibes Official',
+    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    coverUrl: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=800&auto=format&fit=crop&q=80',
+    duration: 15,
+    views: '890K',
+    likes: '92K',
+    comments: '840',
+    originalUrl: 'https://www.instagram.com/reel/sample1',
     formats: [
-      { quality: 'HD 1080p Original', format: 'MP4', size: '15.1 MB', url: WORKING_FALLBACK_VIDEO },
-      { quality: 'SD 720p Fast Download', format: 'MP4', size: '8.4 MB', url: WORKING_FALLBACK_VIDEO }
-    ]
-  },
-  {
-    id: 'sample-durga-1',
-    platform: 'instagram',
-    title: 'Maa Durga Devotional Reel - All Rounder Ajay 🕉️✨',
-    author: 'all_rounder__ajay',
-    authorName: 'All Rounder Ajay',
-    authorAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-    videoUrl: '/assets/aistudio/Video_by_all_rounder__ajay_HD__1__3dface47.mp4',
-    coverUrl: 'https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=800&auto=format&fit=crop&q=80',
-    audioUrl: '/assets/aistudio/Video_by_all_rounder__ajay_HD__1__3dface47.mp4',
-    duration: 25,
-    views: '1.5M',
-    likes: '240K',
-    comments: '4.8K',
-    formats: [
-      { quality: 'Original HD 1080p (Direct MP4)', format: 'MP4', size: '10.2 MB', url: '/assets/aistudio/Video_by_all_rounder__ajay_HD__1__3dface47.mp4' },
-      { quality: 'Mobile 720p Clean MP4', format: 'MP4', size: '6.4 MB', url: '/assets/aistudio/Video_by_all_rounder__ajay_HD__1__3dface47.mp4' }
+      { quality: 'Instagram Original Reel HD', format: 'MP4', size: '14.2 MB', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4' },
+      { quality: 'Audio Track (MP3 320kbps)', format: 'MP3', size: '1.8 MB', url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4' },
     ]
   }
 ];
 
-// 1. Resolve Reel Link endpoint
-app.post('/api/resolve', async (req: Request, res: Response) => {
+// 1. Resolve Video Metadata & Direct Clean Stream URL
+app.post('/api/resolve-video', async (req: Request, res: Response) => {
+  const { url } = req.body;
+
+  if (!url || typeof url !== 'string') {
+    return res.status(400).json({ error: 'Please enter a valid video link.' });
+  }
+
+  const rawUrl = url.trim();
+
   try {
-    const rawUrl = (req.body?.url || '').trim();
-
-    if (!rawUrl) {
-      return res.status(400).json({ error: 'Please provide a valid video or reel URL.' });
-    }
-
-    // Check if it matches sample preset
-    if (rawUrl.startsWith('sample:')) {
-      const sampleId = rawUrl.replace('sample:', '');
-      const sample = SAMPLE_REELS.find((s) => s.id === sampleId) || SAMPLE_REELS[0];
-      return res.json({ success: true, data: sample });
-    }
-
-    // Direct check for all_rounder or uploaded video
-    if (rawUrl.includes('all_rounder') || rawUrl.includes('Video_by_all_rounder') || rawUrl.includes('30-09-2027')) {
-      return res.json({ success: true, data: SAMPLE_REELS[3] });
-    }
-
-    // Detect Platform
-    let platform = 'general';
-    if (isTikTokUrl(rawUrl)) platform = 'tiktok';
-    else if (rawUrl.includes('youtube.com') || rawUrl.includes('youtu.be')) platform = 'youtube';
-    else if (rawUrl.includes('instagram.com')) platform = 'instagram';
-    else if (isFacebookUrl(rawUrl)) platform = 'facebook';
-
-    // TikTok Handler via TikWM API (High fidelity, watermark-free direct MP4)
-    if (platform === 'tiktok') {
-      try {
-        const tikwmResp = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(rawUrl)}`, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          },
-        });
-        const tikwmData = await tikwmResp.json();
-
-        if (tikwmData && tikwmData.code === 0 && tikwmData.data) {
-          const item = tikwmData.data;
-          const cleanPlayUrl = item.play?.startsWith('http') ? item.play : `https://www.tikwm.com${item.play}`;
-          const wmPlayUrl = item.wmplay?.startsWith('http') ? item.wmplay : `https://www.tikwm.com${item.wmplay}`;
-          const musicUrl = item.music?.startsWith('http') ? item.music : (item.music ? `https://www.tikwm.com${item.music}` : null);
-          const coverUrl = item.cover?.startsWith('http') ? item.cover : `https://www.tikwm.com${item.cover}`;
-
-          const resolved = {
-            id: item.id || `tt-${Date.now()}`,
-            platform: 'tiktok',
-            originalUrl: rawUrl,
-            title: item.title || 'TikTok Reel Video',
-            author: item.author?.unique_id ? `@${item.author.unique_id}` : '@tiktok_user',
-            authorName: item.author?.nickname || 'TikTok Creator',
-            authorAvatar: item.author?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-            videoUrl: cleanPlayUrl,
-            watermarkVideoUrl: wmPlayUrl,
-            audioUrl: musicUrl,
-            coverUrl: coverUrl,
-            duration: item.duration || 15,
-            views: item.play_count ? (item.play_count >= 1000000 ? `${(item.play_count / 1000000).toFixed(1)}M` : `${Math.round(item.play_count / 1000)}K`) : 'Viral',
-            likes: item.digg_count ? (item.digg_count >= 1000000 ? `${(item.digg_count / 1000000).toFixed(1)}M` : `${Math.round(item.digg_count / 1000)}K`) : 'Active',
-            comments: item.comment_count ? `${item.comment_count}` : '0',
-            formats: [
-              { quality: 'HD 1080p (No Watermark)', format: 'MP4', size: '12 - 35 MB', url: cleanPlayUrl },
-              { quality: 'SD 720p (Original Watermark)', format: 'MP4', size: '8 - 20 MB', url: wmPlayUrl },
-              ...(musicUrl ? [{ quality: 'Audio Sound Only', format: 'MP3 (High Quality)', size: '2 - 5 MB', url: musicUrl }] : [])
-            ]
-          };
-
-          return res.json({ success: true, data: resolved });
-        }
-      } catch (err) {
-        console.warn('TikWM API fetch failed, falling back:', err);
-      }
-    }
-
-    // YouTube Shorts / Videos Handler
-    if (platform === 'youtube') {
-      const ytId = extractYouTubeId(rawUrl);
-      if (ytId) {
-        let title = 'YouTube Short Video';
-        let author = 'YouTube Creator';
-        let authorUrl = `https://www.youtube.com/watch?v=${ytId}`;
-        let oembedThumbnail = `https://i.ytimg.com/vi/${ytId}/maxresdefault.jpg`;
-
-        try {
-          const oembedResp = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${ytId}&format=json`);
-          if (oembedResp.ok) {
-            const oembedData = await oembedResp.json();
-            title = oembedData.title || title;
-            author = oembedData.author_name || author;
-            authorUrl = oembedData.author_url || authorUrl;
-            if (oembedData.thumbnail_url) oembedThumbnail = oembedData.thumbnail_url;
-          }
-        } catch (e) {
-          console.warn('YouTube oembed warning:', e);
-        }
-
-        const resolved = {
-          id: ytId,
-          platform: 'youtube',
-          originalUrl: rawUrl,
-          title: title,
-          author: author,
-          authorName: author,
-          authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=ef4444&color=fff`,
-          // Official embed player URL that plays the exact video
-          embedUrl: `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=0&controls=1&rel=0&modestbranding=1`,
-          videoUrl: '',
-          coverUrl: oembedThumbnail || `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`,
-          duration: 30,
-          views: 'YouTube Shorts',
-          likes: 'Viral',
-          comments: 'Active',
-          formats: [
-            { quality: 'HD 1080p MP4 Video', format: 'MP4', size: 'Full HD', url: oembedThumbnail, isImageCover: false, ytId: ytId },
-            { quality: 'HD 720p Mobile Video', format: 'MP4', size: 'Standard HD', url: oembedThumbnail, isImageCover: false, ytId: ytId }
-          ]
-        };
-
-        return res.json({ success: true, data: resolved });
-      }
-    }
-
-    // Instagram Reel Handler (Extracts real direct MP4 stream via yt-dlp)
-    if (platform === 'instagram') {
-      const igCode = extractInstagramCode(rawUrl);
-      const shortcode = igCode || 'reel';
-      let title = `Instagram Reel (@${shortcode})`;
-      let author = '@instagram_creator';
-      let authorName = 'Instagram Reel Creator';
-      let coverUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
-      let duration = 30;
-      let directMp4Url = '';
-      let directAudioUrl = '';
-      let formatsList: any[] = [];
-
-      // Try public Instagram oEmbed to fetch real caption, author, and poster thumbnail
-      if (shortcode && shortcode !== 'reel') {
-        try {
-          const igOembedResp = await fetch(`https://api.instagram.com/oembed/?url=https://www.instagram.com/reel/${shortcode}/`);
-          if (igOembedResp.ok) {
-            const igData: any = await igOembedResp.json();
-            if (igData.title) title = igData.title;
-            if (igData.author_name) {
-              author = `@${igData.author_name}`;
-              authorName = igData.author_name;
-            }
-            if (igData.thumbnail_url) coverUrl = igData.thumbnail_url;
-          }
-        } catch (oembedErr) {
-          // silently continue to yt-dlp
-        }
-      }
+    // A. YouTube Shorts & Videos Handler
+    if (extractYouTubeId(rawUrl)) {
+      const ytId = extractYouTubeId(rawUrl)!;
+      let title = 'Viral YouTube Short';
+      let author = '@creator';
+      let authorName = 'YouTube Creator';
+      let duration = 15;
+      let directMp4Url: string | null = null;
+      let directAudioUrl: string | null = null;
+      const formatsList: any[] = [];
 
       try {
-        const d = await extractWithYtDlp(rawUrl);
-        if (d) {
-          title = d.title || title;
-          author = d.uploader ? `@${d.uploader}` : author;
-          authorName = d.uploader || authorName;
-          if (d.thumbnail) coverUrl = d.thumbnail;
-          if (d.duration) duration = d.duration;
+        const oembedRes = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${ytId}&format=json`);
+        if (oembedRes.ok) {
+          const oembedData = await oembedRes.json();
+          title = oembedData.title || title;
+          authorName = oembedData.author_name || authorName;
+          author = `@${authorName.replace(/\s+/g, '').toLowerCase()}`;
+        }
+      } catch (e) {
+        console.warn('OEmbed fetch fallback:', e);
+      }
 
-          if (Array.isArray(d.formats) && d.formats.length > 0) {
-            // Find progressive MP4 containing both video and audio
-            const progressive = d.formats.find(
-              (f: any) =>
-                (f.format_id === '0' || f.format_id === '1') ||
-                (f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4')
-            ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none') || d.formats[0];
+      // Fast yt-dlp check
+      try {
+        const ytData = await extractWithYtDlp(`https://www.youtube.com/watch?v=${ytId}`);
+        if (ytData) {
+          if (ytData.title) title = ytData.title;
+          if (ytData.uploader) {
+            authorName = ytData.uploader;
+            author = `@${ytData.uploader.replace(/\s+/g, '').toLowerCase()}`;
+          }
+          if (ytData.duration) duration = ytData.duration;
 
-            const audioFmt = d.formats.find((f: any) => f.acodec && f.acodec !== 'none' && (!f.vcodec || f.vcodec === 'none'));
-
-            if (progressive && progressive.url) {
-              directMp4Url = progressive.url;
-            }
-            if (audioFmt && audioFmt.url) {
-              directAudioUrl = audioFmt.url;
-            }
-
-            if (directMp4Url) {
-              formatsList = [
-                { quality: 'Original HD Video (MP4)', format: 'MP4', size: 'Full Video', url: directMp4Url },
-                { quality: 'Mobile 720p Video (MP4)', format: 'MP4', size: 'Standard Video', url: directMp4Url }
-              ];
+          if (Array.isArray(ytData.formats)) {
+            const progressive = ytData.formats.filter((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none' && f.acodec !== 'none');
+            if (progressive.length > 0) {
+              const bestProg = progressive[progressive.length - 1];
+              directMp4Url = bestProg.url;
             }
           }
         }
-      } catch (igErr: any) {
-        console.warn('Instagram yt-dlp extraction warning:', igErr?.message || igErr);
+      } catch (ytdlpErr) {
+        // Proceed with direct YouTube endpoints
       }
 
-      // Ensure videoUrl and audioUrl are always playable streams in-app
-      const finalMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
-      const finalAudioUrl = directAudioUrl || finalMp4Url;
+      formatsList.push({
+        quality: 'Full HD 1080p (Direct)',
+        format: 'MP4',
+        size: 'Best Quality',
+        url: directMp4Url || `/api/download-youtube?id=${ytId}&format=1080`,
+        isDirectDownload: true,
+        ytId: ytId
+      });
+      formatsList.push({
+        quality: 'HD 720p Fast Download',
+        format: 'MP4',
+        size: 'Fast Speed',
+        url: directMp4Url || `/api/download-youtube?id=${ytId}&format=720`,
+        isDirectDownload: true,
+        ytId: ytId
+      });
+      formatsList.push({
+        quality: 'Audio Only (MP3 320kbps)',
+        format: 'MP3',
+        size: 'Clean Audio',
+        url: `/api/download-youtube?id=${ytId}&format=mp3`,
+        isDirectDownload: true,
+        ytId: ytId
+      });
 
       const resolved = {
-        id: shortcode,
-        platform: 'instagram',
+        id: ytId,
+        platform: 'youtube',
         originalUrl: rawUrl,
         title: title,
         author: author,
         authorName: authorName,
-        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=e1306c&color=fff`,
-        embedUrl: `https://www.instagram.com/reel/${shortcode}/embed/`,
-        videoUrl: finalMp4Url,
-        audioUrl: finalAudioUrl,
-        coverUrl: coverUrl,
+        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=ff0000&color=fff`,
+        videoUrl: directMp4Url || '',
+        audioUrl: directAudioUrl || `/api/download-youtube?id=${ytId}&format=mp3`,
+        coverUrl: `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&controls=1&rel=0&modestbranding=1`,
         duration: duration,
-        views: 'Reels Trending',
-        likes: 'Active',
-        comments: 'Instagram',
-        formats: formatsList.length > 0 ? formatsList : [
-          { quality: 'Original HD 1080p (No Watermark)', format: 'MP4', size: '15.4 MB', url: finalMp4Url },
-          { quality: 'Mobile 720p Fast Stream', format: 'MP4', size: '8.2 MB', url: finalMp4Url }
+        views: 'Shorts Feed',
+        likes: 'Trending',
+        comments: 'Active',
+        formats: formatsList
+      };
+
+      return res.json({ success: true, data: resolved });
+    }
+
+    // B. TikTok Handler (Direct No-Watermark Stream)
+    if (isTikTokUrl(rawUrl)) {
+      let title = 'Trending TikTok Video';
+      let author = '@tiktok_creator';
+      let authorName = 'TikTok Creator';
+      let cleanVideoUrl = '';
+      let audioUrl = '';
+      let coverUrl = '';
+      let duration = 15;
+      let views = '1.1M';
+      let likes = '120K';
+      let comments = '1.4K';
+
+      try {
+        const tikwmRes = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(rawUrl)}`);
+        if (tikwmRes.ok) {
+          const tikData = await tikwmRes.json();
+          if (tikData.code === 0 && tikData.data) {
+            const d = tikData.data;
+            title = d.title || title;
+            if (d.author) {
+              author = `@${d.author.unique_id || 'creator'}`;
+              authorName = d.author.nickname || author;
+            }
+            cleanVideoUrl = d.play || d.wmplay || '';
+            if (cleanVideoUrl && !cleanVideoUrl.startsWith('http')) {
+              cleanVideoUrl = `https://www.tikwm.com${cleanVideoUrl}`;
+            }
+            audioUrl = d.music || '';
+            if (audioUrl && !audioUrl.startsWith('http')) {
+              audioUrl = `https://www.tikwm.com${audioUrl}`;
+            }
+            coverUrl = d.cover || '';
+            duration = d.duration || duration;
+            if (d.play_count) views = `${(d.play_count / 1000).toFixed(1)}K`;
+            if (d.digg_count) likes = `${(d.digg_count / 1000).toFixed(1)}K`;
+            if (d.comment_count) comments = `${d.comment_count}`;
+          }
+        }
+      } catch (tikErr) {
+        console.warn('TikWM scraper fallback:', tikErr);
+      }
+
+      // Secondary yt-dlp fallback
+      if (!cleanVideoUrl) {
+        try {
+          const ytData = await extractWithYtDlp(rawUrl);
+          if (ytData) {
+            title = ytData.title || title;
+            author = `@${ytData.uploader || 'tiktok_creator'}`;
+            cleanVideoUrl = ytData.url || '';
+            coverUrl = ytData.thumbnail || coverUrl;
+            duration = ytData.duration || duration;
+          }
+        } catch (e) {}
+      }
+
+      const resolved = {
+        id: `tiktok-${Date.now()}`,
+        platform: 'tiktok',
+        originalUrl: rawUrl,
+        title: title,
+        author: author,
+        authorName: authorName,
+        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=000&color=fff`,
+        videoUrl: cleanVideoUrl,
+        audioUrl: audioUrl || cleanVideoUrl,
+        coverUrl: coverUrl || 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&auto=format&fit=crop&q=80',
+        duration: duration,
+        views: views,
+        likes: likes,
+        comments: comments,
+        formats: [
+          { quality: 'Full HD (No Watermark)', format: 'MP4', size: 'Clean Video', url: cleanVideoUrl },
+          { quality: 'Original Audio (MP3 320kbps)', format: 'MP3', size: 'Audio Track', url: audioUrl || cleanVideoUrl }
         ]
       };
 
       return res.json({ success: true, data: resolved });
     }
 
-    // Facebook Reel Handler (Extracts real direct MP4 stream via yt-dlp)
-    if (platform === 'facebook') {
-      let title = 'Facebook Video';
-      let author = '@facebook_creator';
-      let coverUrl = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
-      let duration = 30;
+    // C. Instagram Reels Handler
+    if (rawUrl.includes('instagram.com')) {
+      const igCode = extractInstagramCode(rawUrl);
+      let title = 'Instagram Reel Video';
+      let author = '@instagram_creator';
+      let authorName = 'Instagram Creator';
       let directMp4Url = '';
-      let directAudioUrl = '';
+      let coverUrl = '';
+      let duration = 15;
+      const formatsList: any[] = [];
 
+      // Multi-scraper Instagram resolver
       try {
-        const d = await extractWithYtDlp(rawUrl);
-        if (d) {
-          title = d.title || title;
-          author = d.uploader ? `@${d.uploader}` : author;
-          if (d.thumbnail) coverUrl = d.thumbnail;
-          if (d.duration) duration = d.duration;
-
-          if (Array.isArray(d.formats) && d.formats.length > 0) {
-            const progressive = d.formats.find(
-              (f: any) => f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4'
-            ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none') || d.formats[0];
-
-            const audioFmt = d.formats.find((f: any) => f.acodec && f.acodec !== 'none' && (!f.vcodec || f.vcodec === 'none'));
-
-            if (progressive && progressive.url) directMp4Url = progressive.url;
-            if (audioFmt && audioFmt.url) directAudioUrl = audioFmt.url;
-          }
+        const { igdl } = await import('btch-downloader');
+        const igData = await igdl(rawUrl);
+        if (Array.isArray(igData) && igData.length > 0) {
+          const vid = igData.find((item: any) => item.url && (item.url.includes('.mp4') || !item.url.includes('.jpg')));
+          if (vid && vid.url) directMp4Url = vid.url;
+          if (vid && vid.thumbnail) coverUrl = vid.thumbnail;
         }
-      } catch (fbErr: any) {
-        console.warn('Facebook yt-dlp extraction warning:', fbErr?.message || fbErr);
+      } catch (btchErr) {}
+
+      if (!directMp4Url) {
+        try {
+          const { snapsave } = await import('snapsave-media-downloader');
+          const snapRes = await snapsave(rawUrl);
+          if (snapRes && snapRes.data && Array.isArray(snapRes.data)) {
+            const mp4Item = snapRes.data.find((x: any) => x.url && x.url.includes('.mp4')) || snapRes.data[0];
+            if (mp4Item && mp4Item.url) directMp4Url = mp4Item.url;
+          }
+        } catch (snapErr) {}
       }
 
-      const finalMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
-      const finalAudioUrl = directAudioUrl || finalMp4Url;
+      if (directMp4Url) {
+        formatsList.push({
+          quality: 'Instagram HD 1080p (Clean MP4)',
+          format: 'MP4',
+          size: 'Full HD',
+          url: directMp4Url
+        });
+        formatsList.push({
+          quality: 'Original Reel Audio (MP3 320kbps)',
+          format: 'MP3',
+          size: 'Audio Track',
+          url: directMp4Url
+        });
+      }
+
+      const resolved = {
+        id: igCode || `ig-${Date.now()}`,
+        platform: 'instagram',
+        originalUrl: rawUrl,
+        title: title,
+        author: author,
+        authorName: authorName,
+        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=e1306c&color=fff`,
+        videoUrl: directMp4Url,
+        audioUrl: directMp4Url,
+        coverUrl: coverUrl || (igCode ? `https://www.instagram.com/reel/${igCode}/media/?size=l` : ''),
+        embedUrl: igCode ? `https://www.instagram.com/reel/${igCode}/embed/` : undefined,
+        duration: duration,
+        views: 'Reels Feed',
+        likes: 'Popular',
+        comments: 'Trending',
+        formats: formatsList.length > 0 ? formatsList : [
+          { quality: 'Instagram HD Video', format: 'MP4', size: 'Original', url: directMp4Url }
+        ]
+      };
+
+      return res.json({ success: true, data: resolved });
+    }
+
+    // D. Facebook Reels Handler
+    if (isFacebookUrl(rawUrl)) {
+      let title = 'Trending Facebook Reel';
+      let author = '@facebook_watch';
+      let authorName = 'Facebook Creator';
+      let finalFbMp4Url = '';
+      let finalFbAudioUrl = '';
+      let coverUrl = '';
+      let duration = 20;
+      const formatsList: any[] = [];
+
+      try {
+        const { fbdown } = await import('ruhend-scraper');
+        const fbData = await fbdown(rawUrl);
+        if (fbData && (fbData.Normal_video || fbData.HD)) {
+          finalFbMp4Url = fbData.HD || fbData.Normal_video;
+          if (fbData.audio) finalFbAudioUrl = fbData.audio;
+        }
+      } catch (fbErr) {}
+
+      if (!finalFbMp4Url) {
+        try {
+          const { snapsave } = await import('snapsave-media-downloader');
+          const snapRes = await snapsave(rawUrl);
+          if (snapRes && snapRes.data && Array.isArray(snapRes.data)) {
+            const hdItem = snapRes.data.find((f: any) => f.resolution?.includes('HD') || f.resolution?.includes('720') || f.resolution?.includes('1080'));
+            const normalItem = snapRes.data[0];
+            finalFbMp4Url = hdItem?.url || normalItem?.url || '';
+          }
+        } catch (e) {}
+      }
+
+      if (finalFbMp4Url) {
+        formatsList.push({
+          quality: 'Facebook HD 1080p (Original)',
+          format: 'MP4',
+          size: 'Full HD',
+          url: finalFbMp4Url
+        });
+        formatsList.push({
+          quality: 'Original Video Sound (MP3 320kbps)',
+          format: 'MP3',
+          size: 'Clean Audio',
+          url: finalFbAudioUrl || finalFbMp4Url
+        });
+      }
 
       const resolved = {
         id: `fb-${Date.now()}`,
@@ -438,198 +449,119 @@ app.post('/api/resolve', async (req: Request, res: Response) => {
         originalUrl: rawUrl,
         title: title,
         author: author,
-        authorName: author.replace('@', ''),
-        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=1877f2&color=fff`,
-        videoUrl: finalMp4Url,
-        audioUrl: finalAudioUrl,
+        authorName: authorName,
+        authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(authorName)}&background=1877f2&color=fff`,
+        videoUrl: finalFbMp4Url,
+        audioUrl: finalFbAudioUrl || finalFbMp4Url,
         coverUrl: coverUrl,
         duration: duration,
-        views: 'Facebook Watch',
-        likes: 'Active',
-        comments: '0',
-        formats: [
-          { quality: 'Original HD Video (MP4)', format: 'MP4', size: 'Full HD', url: finalMp4Url },
-          { quality: 'Mobile 720p Video (MP4)', format: 'MP4', size: 'Standard Video', url: finalMp4Url }
+        views: 'FB Watch Viral',
+        likes: 'Recommended',
+        comments: 'Reels',
+        formats: formatsList.length > 0 ? formatsList : [
+          { quality: 'Facebook HD 1080p Video', format: 'MP4', size: 'Original HD', url: finalFbMp4Url }
         ]
       };
 
       return res.json({ success: true, data: resolved });
     }
 
-    // Generic / Fallback Handler via yt-dlp
-    try {
-      const d = await extractWithYtDlp(rawUrl);
-      if (d) {
-        const title = d.title || 'Reel Video';
-        const author = d.uploader ? `@${d.uploader}` : '@creator';
-        const coverUrl = d.thumbnail || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80';
-        const duration = d.duration || 30;
+    // E. Direct or General Video Stream
+    const resolved = {
+      id: `gen-${Date.now()}`,
+      platform: 'general',
+      originalUrl: rawUrl,
+      title: rawUrl.split('/').pop()?.split('?')[0] || 'Media Video Stream',
+      author: '@web_stream',
+      authorName: 'Web Media Source',
+      authorAvatar: `https://ui-avatars.com/api/?name=Web&background=6366f1&color=fff`,
+      videoUrl: rawUrl.endsWith('.mp4') ? rawUrl : WORKING_FALLBACK_VIDEO,
+      coverUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+      duration: 15,
+      views: 'HD Media',
+      likes: 'Direct',
+      comments: 'Clean',
+      formats: [
+        { quality: 'HD Direct MP4', format: 'MP4', size: 'Direct Stream', url: rawUrl }
+      ]
+    };
 
-        let directMp4Url = '';
-        let directAudioUrl = '';
-
-        if (Array.isArray(d.formats)) {
-          const progressive = d.formats.find(
-            (f: any) => f.vcodec && f.vcodec !== 'none' && f.acodec && f.acodec !== 'none' && f.ext === 'mp4'
-          ) || d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none') || d.formats[0];
-
-          const audioFmt = d.formats.find((f: any) => f.acodec && f.acodec !== 'none' && (!f.vcodec || f.vcodec === 'none'));
-
-          if (progressive && progressive.url) directMp4Url = progressive.url;
-          if (audioFmt && audioFmt.url) directAudioUrl = audioFmt.url;
-        }
-
-        const finalMp4Url = directMp4Url || WORKING_FALLBACK_VIDEO;
-        const finalAudioUrl = directAudioUrl || finalMp4Url;
-
-        const resolved = {
-          id: `gen-${Date.now()}`,
-          platform: 'general',
-          originalUrl: rawUrl,
-          title: title,
-          author: author,
-          authorName: author.replace('@', ''),
-          authorAvatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(author)}&background=6366f1&color=fff`,
-          videoUrl: finalMp4Url,
-          audioUrl: finalAudioUrl,
-          coverUrl: coverUrl,
-          duration: duration,
-          views: 'Trending',
-          likes: 'Active',
-          comments: '0',
-          formats: [
-            { quality: 'HD 1080p (No Watermark)', format: 'MP4', size: 'Direct Stream', url: finalMp4Url },
-            { quality: 'SD 720p Mobile', format: 'MP4', size: 'Standard Stream', url: finalMp4Url }
-          ]
-        };
-
-        return res.json({ success: true, data: resolved });
-      }
-    } catch (genErr) {
-      console.warn('Generic yt-dlp fallback error:', genErr);
-    }
-
-    // Default Fallback
-    const fallback = SAMPLE_REELS[0];
-    return res.json({
-      success: true,
-      data: {
-        ...fallback,
-        originalUrl: rawUrl,
-        title: 'Trending Short Video Reel'
-      }
-    });
+    return res.json({ success: true, data: resolved });
 
   } catch (error: any) {
-    console.error('Resolve link error:', error);
-    res.status(500).json({ error: error?.message || 'Failed to resolve reel URL' });
+    console.error('Resolve error:', error);
+    return res.status(500).json({ error: 'Failed to extract video details: ' + (error?.message || 'Unknown error') });
   }
 });
 
-// 2. Proxy Video Stream Endpoint (Ensures smooth HTML5 video player playback without CORS/anti-hotlinking)
+// 2. Video Streaming Proxy (Prevents CORS & hotlink referrer blocking during browser preview)
 app.get('/api/proxy-stream', async (req: Request, res: Response) => {
-  const targetUrl = (req.query.url as string || '').trim();
-
+  const targetUrl = req.query.url as string;
   if (!targetUrl) {
     return res.status(400).send('Missing url parameter');
   }
 
-  // Handle local filesystem assets directly (e.g. /assets/...)
-  if (targetUrl.startsWith('/') || !targetUrl.startsWith('http')) {
-    const localRel = targetUrl.replace(/^\/+/, '');
-    const cand1 = path.join(process.cwd(), 'public', localRel);
-    const cand2 = path.join(process.cwd(), localRel);
-    const finalCand = fs.existsSync(cand1) ? cand1 : (fs.existsSync(cand2) ? cand2 : null);
-    if (finalCand) {
-      res.setHeader('Content-Type', 'video/mp4');
-      res.setHeader('Accept-Ranges', 'bytes');
-      return res.sendFile(finalCand);
-    }
-  }
-
   try {
-    const fetchHeaders: Record<string, string> = {
+    const headers: Record<string, string> = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       'Accept': '*/*',
     };
 
     if (req.headers.range) {
-      fetchHeaders['Range'] = req.headers.range;
+      headers['Range'] = req.headers.range;
     }
 
     if (targetUrl.includes('tiktok') || targetUrl.includes('tikwm')) {
-      fetchHeaders['Referer'] = 'https://www.tiktok.com/';
-    } else if (targetUrl.includes('instagram')) {
-      fetchHeaders['Referer'] = 'https://www.instagram.com/';
+      headers['Referer'] = 'https://www.tiktok.com/';
+    } else if (targetUrl.includes('instagram') || targetUrl.includes('cdninstagram')) {
+      headers['Referer'] = 'https://www.instagram.com/';
     }
 
-    const remoteResponse = await fetch(targetUrl, {
-      headers: fetchHeaders,
-      redirect: 'follow',
+    const client = targetUrl.startsWith('https:') ? https : http;
+    const request = client.get(targetUrl, { headers }, (remoteRes) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'Range');
+      res.setHeader('Accept-Ranges', 'bytes');
+
+      if (remoteRes.headers['content-type']) {
+        res.setHeader('Content-Type', remoteRes.headers['content-type']);
+      } else {
+        res.setHeader('Content-Type', 'video/mp4');
+      }
+
+      if (remoteRes.headers['content-length']) {
+        res.setHeader('Content-Length', remoteRes.headers['content-length']);
+      }
+      if (remoteRes.headers['content-range']) {
+        res.setHeader('Content-Range', remoteRes.headers['content-range']);
+      }
+
+      res.status(remoteRes.statusCode || 200);
+      remoteRes.pipe(res);
     });
 
-    if (!remoteResponse.ok) {
-      return res.status(remoteResponse.status).send(`Remote server returned ${remoteResponse.status}`);
-    }
-
-    res.status(remoteResponse.status);
-
-    const headersToForward = [
-      'content-type',
-      'content-length',
-      'accept-ranges',
-      'content-range',
-      'last-modified',
-      'etag'
-    ];
-
-    headersToForward.forEach((h) => {
-      const val = remoteResponse.headers.get(h);
-      if (val) res.setHeader(h, val);
+    request.on('error', (err) => {
+      console.error('Proxy stream error:', err);
+      if (!res.headersSent) {
+        res.status(502).send('Error streaming media');
+      }
     });
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Cache-Control', 'public, max-age=3600');
-
-    if (remoteResponse.body) {
-      const { Readable } = await import('stream');
-      const nodeStream = Readable.fromWeb(remoteResponse.body as any);
-      nodeStream.pipe(res);
-    } else {
-      res.end();
-    }
   } catch (err: any) {
-    console.error('Proxy stream error:', err);
-    if (!res.headersSent) {
-      res.status(500).send('Proxy stream error: ' + (err?.message || 'Unknown error'));
-    }
+    console.error('Proxy setup error:', err);
+    res.status(500).send('Internal stream error');
   }
 });
 
-// 3. Direct Local Folder Download Endpoint (Forces browser save dialog straight to disk)
+// 3. Direct Browser Download Endpoint (Single attachment delivery, strictly saves to local folder)
 app.get('/api/download', async (req: Request, res: Response) => {
-  const targetUrl = (req.query.url as string || '').trim();
-  const rawFilename = (req.query.filename as string) || 'OmniReel_Download.mp4';
+  const targetUrl = req.query.url as string;
+  const rawFilename = (req.query.filename as string) || 'OmniReel_Video.mp4';
   const cleanFilename = rawFilename.replace(/[^a-zA-Z0-9._-]/g, '_');
 
   if (!targetUrl) {
     return res.status(400).send('Missing url parameter');
   }
 
-  // Handle local filesystem assets directly (e.g. /assets/...)
-  if (targetUrl.startsWith('/') || !targetUrl.startsWith('http')) {
-    const localRel = targetUrl.replace(/^\/+/, '');
-    const cand1 = path.join(process.cwd(), 'public', localRel);
-    const cand2 = path.join(process.cwd(), localRel);
-    const finalCand = fs.existsSync(cand1) ? cand1 : (fs.existsSync(cand2) ? cand2 : null);
-    if (finalCand) {
-      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-      res.setHeader('Content-Type', 'video/mp4');
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      return res.sendFile(finalCand);
-    }
-  }
-
   try {
     const fetchHeaders: Record<string, string> = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -651,21 +583,11 @@ app.get('/api/download', async (req: Request, res: Response) => {
       return res.status(remoteResponse.status).send(`Remote server returned ${remoteResponse.status}`);
     }
 
-    const respContentType = remoteResponse.headers.get('content-type') || '';
-    if (respContentType.includes('text/html') && (cleanFilename.endsWith('.mp4') || cleanFilename.endsWith('.mp3'))) {
-      return res.status(400).send('Error: Source link returned webpage instead of media stream.');
-    }
-
-    // Set download attachment headers so browser saves strictly to local folder
     res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-    // Set exact media MIME type so Windows Photos/Player and Android open the file immediately
     const mimeType = cleanFilename.endsWith('.mp3') ? 'audio/mpeg' : 'video/mp4';
     res.setHeader('Content-Type', mimeType);
     res.setHeader('Content-Transfer-Encoding', 'binary');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('Access-Control-Allow-Origin', '*');
 
     const contentLength = remoteResponse.headers.get('content-length');
     if (contentLength) {
@@ -704,19 +626,8 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
     const { exec } = await import('child_process');
     const { existsSync, unlinkSync, createWriteStream } = await import('fs');
 
-    // Handle local files directly
     let effectiveInput = tempInput;
     let isLocal = false;
-    if (targetUrl.startsWith('/') || !targetUrl.startsWith('http')) {
-      const localRel = targetUrl.replace(/^\/+/, '');
-      const cand1 = path.join(process.cwd(), 'public', localRel);
-      const cand2 = path.join(process.cwd(), localRel);
-      const finalCand = existsSync(cand1) ? cand1 : (existsSync(cand2) ? cand2 : null);
-      if (finalCand) {
-        effectiveInput = finalCand;
-        isLocal = true;
-      }
-    }
 
     if (!isLocal) {
       const fetchHeaders: Record<string, string> = {
@@ -725,7 +636,6 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
       if (targetUrl.includes('instagram')) fetchHeaders['Referer'] = 'https://www.instagram.com/';
       if (targetUrl.includes('tiktok') || targetUrl.includes('tikwm')) fetchHeaders['Referer'] = 'https://www.tiktok.com/';
 
-      // Download stream to temp disk
       const remoteResp = await fetch(targetUrl, { headers: fetchHeaders });
       if (!remoteResp.ok) {
         return res.status(remoteResp.status).send('Failed to fetch video for audio extraction');
@@ -738,15 +648,12 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
       await pipeline(Readable.fromWeb(remoteResp.body as any), fileStream);
     }
 
-    // Extract high-quality MP3 audio using ffmpeg
     exec(`ffmpeg -y -i "${tempInput}" -vn -c:a libmp3lame -b:a 320k "${tempOutput}"`, (ffmpegErr) => {
       if (existsSync(tempInput)) {
         try { unlinkSync(tempInput); } catch {}
       }
 
       if (ffmpegErr || !existsSync(tempOutput)) {
-        console.error('Audio extraction ffmpeg error:', ffmpegErr);
-        // Fallback: pipe as direct audio download
         res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
         res.setHeader('Content-Type', 'audio/mpeg');
         return res.redirect(`/api/download?url=${encodeURIComponent(targetUrl)}&filename=${encodeURIComponent(cleanFilename)}`);
@@ -768,7 +675,7 @@ app.get('/api/extract-audio', async (req: Request, res: Response) => {
   }
 });
 
-// 3.2 YouTube Dedicated Download Endpoint (Direct to local folder)
+// 3.2 YouTube Dedicated Download Endpoint
 app.get('/api/download-youtube', async (req: Request, res: Response) => {
   const ytId = (req.query.id as string || '').trim();
   const format = (req.query.format as string || '1080').trim();
@@ -782,35 +689,6 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
   }
 
   try {
-    // 1. Try direct extraction via yt-dlp binary if available
-    try {
-      const d = await extractWithYtDlp(`https://www.youtube.com/watch?v=${ytId}`);
-      if (d && Array.isArray(d.formats)) {
-        const streamFmt = d.formats.find((f: any) => f.ext === 'mp4' && f.url && f.vcodec !== 'none' && f.acodec !== 'none') ||
-                          d.formats.find((f: any) => f.url && f.ext === 'mp4');
-        if (streamFmt && streamFmt.url) {
-          const directResp = await fetch(streamFmt.url, {
-            headers: {
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            },
-          });
-          if (directResp.ok && directResp.body) {
-            res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-            res.setHeader('Content-Type', mimeType);
-            res.setHeader('Content-Transfer-Encoding', 'binary');
-            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            const { Readable } = await import('stream');
-            const nodeStream = Readable.fromWeb(directResp.body as any);
-            return nodeStream.pipe(res);
-          }
-        }
-      }
-    } catch (ytdlErr) {
-      // Proceed to cloud converter
-    }
-
-    // 2. High-speed cloud converter stream pipe (loader.to)
     const loaderUrl = `https://loader.to/ajax/download.php?format=${format}&url=${encodeURIComponent(`https://www.youtube.com/watch?v=${ytId}`)}`;
     const initRes = await fetch(loaderUrl, {
       headers: {
@@ -822,7 +700,6 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
     let downloadUrl = initData.download_url;
 
     if (!downloadUrl && initData.progress_url) {
-      // Poll with sufficient attempts (~38s max) to ensure video/audio encoding finishes
       for (let attempt = 0; attempt < 25; attempt++) {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         try {
@@ -832,9 +709,7 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
             downloadUrl = pollData.download_url;
             break;
           }
-        } catch (pollErr) {
-          console.warn('Poll error:', pollErr);
-        }
+        } catch (pollErr) {}
       }
     }
 
@@ -850,7 +725,6 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
         res.setHeader('Content-Type', mimeType);
         res.setHeader('Content-Transfer-Encoding', 'binary');
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        res.setHeader('Access-Control-Allow-Origin', '*');
 
         const cl = streamRes.headers.get('content-length');
         if (cl) res.setHeader('Content-Length', cl);
@@ -859,12 +733,10 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
         const nodeStream = Readable.fromWeb(streamRes.body as any);
         return nodeStream.pipe(res);
       } else {
-        // Direct redirect if stream cannot be piped directly
         return res.redirect(downloadUrl);
       }
     }
 
-    // NEVER return an empty 200 OK body! Return 504 so browser never creates 0-byte corrupt files
     if (!res.headersSent) {
       return res.status(504).send('Download stream conversion in progress. Please click download again in a moment.');
     }
@@ -872,12 +744,12 @@ app.get('/api/download-youtube', async (req: Request, res: Response) => {
   } catch (err: any) {
     console.error('YouTube download error:', err);
     if (!res.headersSent) {
-      res.status(500).send('Download stream error: ' + (err?.message || 'Please retry in a moment'));
+      res.status(500).send('Download stream error: ' + (err?.message || 'Please retry'));
     }
   }
 });
 
-// 3.3 Clean Video Download Endpoint (Direct HD download without blur, saves directly to local folder)
+// 3.3 Clean Video Download Endpoint
 app.get('/api/download-clean', async (req: Request, res: Response) => {
   const targetUrl = (req.query.url as string || '').trim();
   const rawFilename = (req.query.filename as string) || 'Clean_Video_HD.mp4';
@@ -885,28 +757,6 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
 
   if (!targetUrl) {
     return res.status(400).send('Missing url parameter');
-  }
-
-  // Handle local filesystem assets directly (e.g. /assets/...)
-  if (targetUrl.startsWith('/') || !targetUrl.startsWith('http')) {
-    const localRel = targetUrl.replace(/^\/+/, '');
-    const cand1 = path.join(process.cwd(), 'public', localRel);
-    const cand2 = path.join(process.cwd(), localRel);
-    const finalCand = fs.existsSync(cand1) ? cand1 : (fs.existsSync(cand2) ? cand2 : null);
-    if (finalCand) {
-      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
-      res.setHeader('Content-Type', 'video/mp4');
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      return res.sendFile(finalCand);
-    }
-  }
-
-  // Handle YouTube links or thumbnails in clean download
-  if (targetUrl.includes('youtube.com') || targetUrl.includes('youtu.be') || targetUrl.includes('ytimg.com')) {
-    const ytId = extractYouTubeId(targetUrl) || (targetUrl.match(/\/vi\/([a-zA-Z0-9_-]{11})\//)?.[1]);
-    if (ytId) {
-      return res.redirect(`/api/download-youtube?id=${encodeURIComponent(ytId)}&format=1080&filename=${encodeURIComponent(cleanFilename)}`);
-    }
   }
 
   try {
@@ -921,13 +771,10 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
       return res.status(remoteResp.status).send('Failed to fetch source video for clean download');
     }
 
-    // Set genuine attachment headers to download directly to user's local folder
     res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
     res.setHeader('Content-Type', 'video/mp4');
     res.setHeader('Content-Transfer-Encoding', 'binary');
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
 
     const contentLength = remoteResp.headers.get('content-length');
     if (contentLength) {
@@ -946,314 +793,200 @@ app.get('/api/download-clean', async (req: Request, res: Response) => {
   }
 });
 
-// 4. AI Social Media Content Generator: 4 Platform Format Specifications
-app.post('/api/ai-analyze', async (req: Request, res: Response) => {
+// 3.4 Direct Video & Audio Trimming Download Endpoint (Precise slice trimming with FFmpeg)
+app.get('/api/download-trim', async (req: Request, res: Response) => {
+  const targetUrl = (req.query.url as string || '').trim();
+  const startTime = Math.max(0, parseFloat((req.query.start as string) || '0'));
+  const endTime = Math.max(startTime + 0.5, parseFloat((req.query.end as string) || '0'));
+  const format = ((req.query.format as string) || 'mp4').toLowerCase();
+  const ext = format === 'mp3' ? 'mp3' : 'mp4';
+  const mimeType = ext === 'mp3' ? 'audio/mpeg' : 'video/mp4';
+  const rawFilename = (req.query.filename as string) || `Trimmed_Clip_${Math.round(startTime)}s_${Math.round(endTime)}s.${ext}`;
+  const cleanFilename = rawFilename.replace(/[^a-zA-Z0-9._-]/g, '_');
+
+  if (!targetUrl) {
+    return res.status(400).send('Missing url parameter for trimming');
+  }
+
   try {
-    const { title, platform, author, language, targetPlatform } = req.body || {};
-    const videoTitle = title || 'Trending Short Video';
-    const activePlatform = (targetPlatform || platform || 'instagram').toLowerCase();
-    const isBengali = language === 'bn';
-    const cleanTopic = videoTitle.slice(0, 60).replace(/["*_]/g, '').trim();
-    const cleanTopicUpper = cleanTopic.toUpperCase();
-    const authorTag = author ? author.replace(/[^a-zA-Z0-9_]/g, '') : 'all_rounder_ajay';
-    const tagSafeTopic = cleanTopic.replace(/[^a-zA-Z0-9]/g, '') || 'Reels';
+    const timestamp = Date.now();
+    const tempInput = `/tmp/trim_in_${timestamp}.mp4`;
+    const tempOutput = `/tmp/trim_out_${timestamp}.${ext}`;
+    const { exec } = await import('child_process');
+    const { existsSync, unlinkSync, createWriteStream } = await import('fs');
 
-    // Intelligent genre & theme classifier
-    const titleLower = videoTitle.toLowerCase();
-    const isDevotional = /durga|maa|shiv|krishna|ram|bhakti|temple|puja|god|lord|mantra|aarti|devotional|hindu|allah|islamic|prayer|spiritual|integar|30-09-2027/i.test(titleLower);
-    const isDance = /dance|choreography|kathak|bharatanatyam|saree|garba|bhangra|thumka|hiphop|performance|othaiyadi/i.test(titleLower);
-    const isTech = /iphone|camera|hacks|tech|mobile|code|programming|laptop|software|ai|gadgets|android|tips/i.test(titleLower);
-    const isEducation = /tongue|anatomy|study|notes|exam|pharmacy|nursing|science|history|gk|biology|concept/i.test(titleLower);
-    const isTravel = /travel|bali|sunset|viewpoint|mountain|beach|tour|vlog|explore|wanderlust|nature/i.test(titleLower);
-    const isPet = /puppy|dog|cat|kitten|pet|snow|retriever|animal/i.test(titleLower);
+    const fetchHeaders: Record<string, string> = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    };
+    if (targetUrl.includes('instagram')) fetchHeaders['Referer'] = 'https://www.instagram.com/';
+    if (targetUrl.includes('tiktok') || targetUrl.includes('tikwm')) fetchHeaders['Referer'] = 'https://www.tiktok.com/';
 
-    let genreCategory = 'Lifestyle & Entertainment';
-    let genreEmojis = '✨🔥💫';
-    let genreTone = 'engaging, energetic and viral';
-    let genreInsight1 = `${cleanTopic} Creative Vision & Concept`;
-    let genreInsight2 = 'Visual Flow & Emotional Impact';
-    let genreInsight3 = 'Key Highlights & Unforgettable Moments';
-    let genreInsight4 = 'Audience Connection & Relatability';
-    let genreInsight5 = 'Atmosphere & Production Details';
-    let genreInsight6 = 'Creator Inspiration & Daily Share';
-    let genreHashtags = `#${tagSafeTopic} #${authorTag} #ViralReels #TrendingNow #ReelsIndia #ExplorePage #ViralVideo #CreatorLife #DailyReels #ViralPost #MustWatch #InstagramCreators #TrendingReels #ExploreMore #ContentCreator #ViralTrending #ReelsViral #ShortVideo #InstaGood #TopTrending #Entertainment #IndianCreators #ShortsFeed #FYP #Trending`;
-
-    if (isDevotional) {
-      genreCategory = 'Devotional / Spiritual / Bhakti';
-      genreEmojis = '🕉️🙏✨';
-      genreTone = 'sacred, blessed, peaceful and spiritually uplifting';
-      genreInsight1 = `Maa's Divine Grace & Auspicious Blessings`;
-      genreInsight2 = 'Spiritual Serenity & Sacred Darshan';
-      genreInsight3 = 'Devotional Energy & Inner Peace';
-      genreInsight4 = 'Sanatan Culture & Puja Traditions';
-      genreInsight5 = 'Sacred Bhakti & Soulful Vibes';
-      genreInsight6 = 'Daily Spiritual Reflection & Prayers';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #MaaDurga #Bhakti #Devotional #Spiritual #BhaktiStatus #JaiMataDi #SanatanDharma #PujaVibes #MandirDarshan #HinduDevotional #BhaktiReels #DivineEnergy #PeaceAndBlessings #ReelsIndia #SpiritualVibes #ExplorePage #TrendingReels #DailyDevotion #FaithAndPrayer #AartiAndMantra #BlessedDay #IndianSpiritual #BhaktiSangeet #ViralBhakti`;
-    } else if (isDance) {
-      genreCategory = 'Dance / Choreography / Aesthetic';
-      genreEmojis = '💃✨❤️';
-      genreTone = 'graceful, rhythmic, and aesthetically mesmerizing';
-      genreInsight1 = 'Expressive Movements & Facial Grace';
-      genreInsight2 = 'Rhythm, Beat Drops & Musical Timing';
-      genreInsight3 = 'Traditional Attire & Aesthetic Styling';
-      genreInsight4 = 'Seamless Transitions & Stage Presence';
-      genreInsight5 = 'Choreography Breakdown & Energy';
-      genreInsight6 = 'Passion, Artistry & Creator Dedication';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #DanceReels #IndianDance #TraditionalDance #SareeDance #Choreography #DanceTransition #DesiVibes #AestheticReels #ViralDance #ReelsIndia #DanceVideo #TrendingSound #DanceChallenge #CulturalArt #ClassicalFusion #DanceShorts #ExplorePage #TrendingReels #DesiGirl #GracefulMoves #ViralChoreography`;
-    } else if (isTech) {
-      genreCategory = 'Tech / Mobile / Smart Hacks';
-      genreEmojis = '⚡📱💡';
-      genreTone = 'innovative, clear, productive and insightful';
-      genreInsight1 = 'Hidden Camera & Settings Optimization';
-      genreInsight2 = 'Smart Shortcut Execution & Speed';
-      genreInsight3 = 'Productivity Hacks for Daily Use';
-      genreInsight4 = 'Pro-Level Tricks & Troubleshooting';
-      genreInsight5 = 'Battery, Quality & Performance Boost';
-      genreInsight6 = 'Step-by-Step Practical Demonstration';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #TechHacks #MobileTips #SmartShortcuts #TechReels #PhoneHacks #CameraTricks #Gadgets #Technology #DidYouKnow #ProductivityTips #LifeHacks #LearnOnReels #SmartLiving #ExplorePage #TrendingNow #ViralTech #DailyHacks #TechCommunity #ProTips`;
-    } else if (isEducation) {
-      genreCategory = 'Education / Science / Learning Notes';
-      genreEmojis = '📚🧠💡';
-      genreTone = 'clear, structured, informative and student-friendly';
-      genreInsight1 = 'Core Concept Clarification & Foundations';
-      genreInsight2 = 'Key Structures & Functional Analysis';
-      genreInsight3 = 'Practical Insights for Real-Life Scenarios';
-      genreInsight4 = 'Complete Study Notes & Exam Highlights';
-      genreInsight5 = 'In-Depth Breakdown & Terminology';
-      genreInsight6 = 'Quick Revision & Memory Retention Tips';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #Education #StudyNotes #StudentLife #Learning #QuickRevision #StudyGram #ExamPreparation #KnowledgeIsPower #LearnOnInstagram #EduReels #AcademicSuccess #ScienceFacts #DailyLearning #SmartStudy #StudentMotivation #StudyTips #ExploreEducation`;
-    } else if (isTravel) {
-      genreCategory = 'Travel / Nature / Wanderlust';
-      genreEmojis = '🌅🌴✈️';
-      genreTone = 'scenic, breathtaking, adventurous and inspiring';
-      genreInsight1 = 'Hidden Scenic Viewpoint & Exact Location';
-      genreInsight2 = 'Golden Hour Lighting & Photo Spots';
-      genreInsight3 = 'Travel Itinerary & Timing Suggestions';
-      genreInsight4 = 'Budget, Access & Visitor Guidelines';
-      genreInsight5 = 'Nature Aesthetics & Serene Atmosphere';
-      genreInsight6 = 'Wanderlust Bucket List Recommendations';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #TravelReels #Wanderlust #ExploreNature #SunsetLovers #HiddenGems #TravelGram #VacationVibes #BucketList #ScenicViews #TravelDiaries #AdventureAwaits #NatureLovers #ExploreTheWorld #ExplorePage #TrendingTravel #ViralPlaces`;
-    } else if (isPet) {
-      genreCategory = 'Pets / Animals / Heartwarming Moments';
-      genreEmojis = '🐾🐶❄️';
-      genreTone = 'heartwarming, adorable, joyful and lovable';
-      genreInsight1 = 'Pure Joy & Playful First Reactions';
-      genreInsight2 = 'Unconditional Love & Animal Bonding';
-      genreInsight3 = 'Hilarious & Heartwarming Expressions';
-      genreInsight4 = 'Care, Patience & Positive Training';
-      genreInsight5 = 'Winter Fun & Outdoor Exploration';
-      genreInsight6 = 'Daily Wholesome Pet Smiles';
-      genreHashtags = `#${tagSafeTopic} #${authorTag} #PuppyLove #CutePets #DogLovers #PetReels #AnimalLove #GoldenRetriever #PuppyLife #DogLife #AdorablePets #WholesomeMoments #PetGram #DogsOfInstagram #CuteAnimals #ExplorePage #TrendingReels #ViralPuppy`;
+    const remoteResp = await fetch(targetUrl, { headers: fetchHeaders, redirect: 'follow' });
+    if (!remoteResp.ok) {
+      return res.status(remoteResp.status).send('Failed to fetch source video for trimming');
     }
 
-    const systemPrompt = `You are an elite AI Social Media Content Generator for Content Creators.
-Analyze the SPECIFIC video topic: "${videoTitle}" (Creator: @${authorTag}).
-Detected Genre: ${genreCategory}
-Target Platform: ${activePlatform.toUpperCase()}
-Tone: ${genreTone}
-Language: Bilingual (English captions & insights with an engaging Bengali বাংলা community explanation section)
+    const { pipeline } = await import('stream/promises');
+    const { Readable } = await import('stream');
+    const fileStream = createWriteStream(tempInput);
+    await pipeline(Readable.fromWeb(remoteResp.body as any), fileStream);
 
-CRITICAL INSTRUCTIONS:
-1. STRICT SUBJECT ACCURACY: Your generated content, emojis, captions, takeaways, keywords, and hashtags must be 100% SPECIFIC to "${videoTitle}".
-- Do NOT generate health, medical, or anatomy content unless the video title is explicitly about medicine/anatomy!
-- If this is a devotional video (e.g. Maa Durga, Bhakti, Prayer), use devotional emojis (${genreEmojis}), respectful spiritual reflections, blessings, and bhakti hashtags.
-- If this is dance, talk about dance movements, rhythm, and choreography.
-- If this is travel, talk about locations, scenery, and journey.
-- If this is tech, talk about hacks, gadgets, and camera tricks.
-2. MASSIVE & COMPLETE FORMAT ("aroko boro hobe"):
-- Catchy Header with topic-appropriate emojis: ${genreEmojis} [TOPIC IN ALL CAPS] — [High-converting Hook]
-- Compelling multi-paragraph post caption in English describing "${videoTitle}".
-- Natural bilingual Bengali (বাংলা) section explaining the video in simple, inspiring words.
-- Call To Action (Save 📌 & Share ❤️ with friends & family).
-- 6 Detailed Takeaways / Highlights tailored to "${videoTitle}".
-- Disclaimer or Creator signature.
-- Search Keywords: 25 to 35 high-volume search phrases strictly relevant to "${videoTitle}".
-- Hashtags: 25 to 30 trending hashtags strictly relevant to "${videoTitle}", @${authorTag}, and the video genre.
-
-Output strictly valid JSON with this exact schema:
-{
-  "platform": "${activePlatform}",
-  "formattedContent": "the entire formatted text with markdown headers, bullets, emojis, and all sections as specified above"
-}`;
-
-    const effectiveKey = process.env.GEMINI_API_KEY || USER_PROVIDED_API_KEY;
-    if (effectiveKey) {
-      try {
-        if (!genAI) {
-          genAI = new GoogleGenAI({
-            apiKey: effectiveKey,
-            httpOptions: {
-              headers: {
-                'User-Agent': 'aistudio-build',
-              },
-            },
-          });
-        }
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Gemini timeout')), 4000)
-        );
-        const apiPromise = genAI.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: systemPrompt,
-          config: {
-            responseMimeType: 'application/json',
-          },
-        });
-
-        const response: any = await Promise.race([apiPromise, timeoutPromise]);
-
-        if (response && response.text) {
-          const rawText = response.text.trim();
-          const cleanJson = rawText.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
-          const parsed = JSON.parse(cleanJson);
-          if (parsed && parsed.formattedContent) {
-            return res.json({
-              success: true,
-              data: {
-                platform: activePlatform,
-                formattedContent: parsed.formattedContent,
-              },
-            });
-          }
-        }
-      } catch (geminiErr: any) {
-        console.warn('Gemini generateContent call fell back safely to local generator:', geminiErr?.message);
-      }
-    }
-
-    // Dynamic Genre-Aware Heuristic Generator matching user's exact specification
-    let fallbackOutput = '';
-
-    if (activePlatform === 'instagram') {
-      fallbackOutput = `${genreEmojis} ${cleanTopicUpper} — An Inspiring Reel You Must Watch!
-
-The beauty of "${cleanTopic}" brings a truly special emotion that resonates with everyone. ${genreEmojis.slice(0, 2)}
-Every single moment captured here reflects pure dedication, authentic artistry, and unforgettable presence.
-
-এই ভিডিওতে "${cleanTopic}"-এর বিশেষ মুহূর্তগুলো অত্যন্ত সুন্দর ও মনোরমভাবে উপস্থাপন করা হয়েছে—যাতে দর্শক ও শুভাকাঙ্ক্ষীরা এর সৌন্দর্য ও গভীর অনুভূতি উপভোগ করতে পারেন। 🙏✨❤️
-
-Save this post 📌 to your collection and share it with someone who appreciates true quality and emotion! ❤️
-
-Follow @${authorTag} for more:
-✨ 1. ${genreInsight1}
-🌟 2. ${genreInsight2}
-💫 3. ${genreInsight3}
-🎯 4. ${genreInsight4}
-🔥 5. ${genreInsight5}
-💡 6. ${genreInsight6}
-
-Creative content made for cultural, artistic, and community appreciation.
-
-Search Keywords:
-${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} reel, ${cleanTopic.toLowerCase()} video, ${cleanTopic.toLowerCase()} viral, ${cleanTopic.toLowerCase()} status, ${cleanTopic.toLowerCase()} hd, ${authorTag}, indian creator video, trending reels india, best of ${cleanTopic.toLowerCase()}, viral short video, aesthetic ${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} moments, new reel 2026, daily reels, trending sound, viral moments, full hd reel, high quality video, explore reels, popular video, daily inspiration, reels trend, beautiful moments, top creators.
-
-${genreHashtags}`;
-    } else if (activePlatform === 'youtube') {
-      fallbackOutput = `**${cleanTopic} ${genreEmojis} A Beautiful Moment Full of Charm @${authorTag} #Shorts #Trending #Viral
-
-A breathtaking moment filled with grace, energy, and the mesmerizing vibe of ${cleanTopic} ${genreEmojis}
-Every detail in this performance and frame adds emotion and charm to the experience. If you love authentic creativity, inspiring visual storytelling, and trending videos, watch till the end and feel the vibe! 💕✨
-
-What do you think about this performance? Tell me in the comments below! 👇
-Like ❤️ Share 🔄 and Subscribe 🔔 for more beautiful Shorts.
-
-#${tagSafeTopic} #Shorts #TrendingShorts #ViralShorts #YouTubeShorts
-
-${cleanTopic} era 🌺✨
-POV: ${cleanTopic} era unlocked 🌸✨
-Emotion + visuals + soundtrack = Pure magic 🌺💃
-Living rent-free in my mind right now 🧘‍♂️💫
-Drop a ❤️ in the comments if you felt the vibe!
-
-📌 6 Key Highlights:
-1. ${genreInsight1}
-2. ${genreInsight2}
-3. ${genreInsight3}
-4. ${genreInsight4}
-5. ${genreInsight5}
-6. ${genreInsight6}
-
-Search Keywords:
-${cleanTopic.toLowerCase()} shorts, ${cleanTopic.toLowerCase()} youtube shorts, ${cleanTopic.toLowerCase()} viral, ${cleanTopic.toLowerCase()} trending, ${authorTag} shorts, best ${cleanTopic.toLowerCase()}, aesthetic shorts, indian shorts, trending status, youtube viral shorts, viral video today, shorts feed, top shorts, creative shorts, beautiful moments, daily shorts.
-
-${genreHashtags}`;
-    } else if (activePlatform === 'facebook') {
-      fallbackOutput = `✨ ${cleanTopicUpper} ✨ — Pure Charm & Beautiful Presentation!
-
-A truly special moment filled with elegance and grace. Every expression, movement, and visual detail in "${cleanTopic}" captures the essence of pure artistry. ${genreEmojis}
-
-এই বিশেষ ভিডিওটিতে "${cleanTopic}"-এর অসাধারণ নান্দনিক রূপ ও অভিব্যক্তি তুলে ধরা হয়েছে। আপনাদের সবার ভালো লাগার মতো চমৎকার মুহূর্তগুলো পরিবার ও বন্ধুদের সাথে শেয়ার করুন! 💖🌸✨
-
-💬 How did you like this video? Let us know in the comments!
-👍 Follow @${authorTag} for daily trending updates and inspiring posts.
-🔄 Share this with someone who would love to watch this today!
-
-Highlights:
-🌟 1. ${genreInsight1}
-✨ 2. ${genreInsight2}
-💫 3. ${genreInsight3}
-🎯 4. ${genreInsight4}
-🔥 5. ${genreInsight5}
-💡 6. ${genreInsight6}
-
-Search Keywords:
-${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} facebook, ${cleanTopic.toLowerCase()} watch, ${cleanTopic.toLowerCase()} video, facebook reels, trending video, ${authorTag}, viral clips, aesthetic video, daily reels, best video 2026, popular reels, family entertainment, inspiring video.
-
-${genreHashtags}`;
+    const sliceDuration = Math.max(0.5, endTime - startTime);
+    let ffmpegCmd = '';
+    if (ext === 'mp3') {
+      ffmpegCmd = `ffmpeg -y -ss ${startTime} -t ${sliceDuration} -i "${tempInput}" -vn -c:a libmp3lame -b:a 320k "${tempOutput}"`;
     } else {
-      // TikTok format
-      fallbackOutput = `${cleanTopic} ✨ ${genreEmojis} @${authorTag}
-
-Tell me this isn't pure magic! 😭✨
-Every single second of "${cleanTopic}" hits right in the feels. Watch till the end! 💃❤️
-
-POV: Discovering the most aesthetic vibe on your FYP today 🧘‍♂️✨
-
-Drop a ❤️ if you loved this!
-Share with your bestie who needs to see this right now 👯‍♀️
-
-Highlights:
-✨ 1. ${genreInsight1}
-🔥 2. ${genreInsight2}
-💡 3. ${genreInsight3}
-
-Search Keywords:
-${cleanTopic.toLowerCase()}, ${cleanTopic.toLowerCase()} tiktok, ${cleanTopic.toLowerCase()} fyp, ${cleanTopic.toLowerCase()} viral, fyp, foryou, trending, aesthetic, viral tiktok, ${authorTag}, desi tiktok, trend.
-
-${genreHashtags}`;
+      ffmpegCmd = `ffmpeg -y -ss ${startTime} -t ${sliceDuration} -i "${tempInput}" -c:v libx264 -preset ultrafast -crf 22 -c:a aac -b:a 192k "${tempOutput}"`;
     }
 
-    return res.json({
-      success: true,
-      data: {
-        platform: activePlatform,
-        formattedContent: fallbackOutput,
-      },
+    exec(ffmpegCmd, (ffmpegErr) => {
+      if (existsSync(tempInput)) {
+        try { unlinkSync(tempInput); } catch {}
+      }
+
+      if (ffmpegErr || !existsSync(tempOutput)) {
+        console.error('Trim execution error:', ffmpegErr);
+        if (!res.headersSent) {
+          return res.status(500).send('Trim error: Could not process media slice.');
+        }
+        return;
+      }
+
+      res.setHeader('Content-Disposition', `attachment; filename="${cleanFilename}"`);
+      res.setHeader('Content-Type', mimeType);
+      res.setHeader('Content-Transfer-Encoding', 'binary');
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.download(tempOutput, cleanFilename, () => {
+        if (existsSync(tempOutput)) {
+          try { unlinkSync(tempOutput); } catch {}
+        }
+      });
     });
 
-  } catch (error: any) {
-    console.error('AI Analyze error:', error);
-    res.status(500).json({ error: error?.message || 'AI generation failed' });
+  } catch (err: any) {
+    console.error('Trim processing error:', err);
+    if (!res.headersSent) {
+      res.status(500).send('Trim failure: ' + (err?.message || 'Server error'));
+    }
   }
 });
 
-// Serve frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist')));
-  app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// 4. AI Creator Studio & Content Repurposing (Gemini API with Offline Rule-Based Fallback)
+app.post('/api/generate-ai-content', async (req: Request, res: Response) => {
+  const { title, platform, author } = req.body;
+  const activePlatform = (platform || 'instagram').toLowerCase();
+  const rawTitle = title || 'Viral Short';
+  const cleanTopic = rawTitle.replace(/[#@][a-zA-Z0-9_]+/g, '').trim() || 'Exciting Moments';
+  const cleanTopicUpper = cleanTopic.charAt(0).toUpperCase() + cleanTopic.slice(1);
+  const tagSafeTopic = cleanTopic.replace(/[^a-zA-Z0-9]/g, '');
+  const authorTag = (author || 'creator').replace(/[^a-zA-Z0-9_]/g, '') || 'creator';
+
+  const systemInstruction = `You are an elite viral media strategist. Return high-energy, copy-paste ready social formats with hooks, bullet points, and trending hashtags.`;
+  const prompt = `Create viral content package for platform: ${activePlatform}. Video Title: "${cleanTopic}", Creator: "@${authorTag}".`;
+
+  if (genAI) {
+    try {
+      const response = await genAI.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: prompt,
+        config: {
+          systemInstruction: systemInstruction,
+          temperature: 0.7,
+        },
+      });
+
+      if (response && response.text) {
+        return res.json({
+          success: true,
+          data: {
+            platform: activePlatform,
+            formattedContent: response.text
+          }
+        });
+      }
+    } catch (apiError: any) {
+      console.warn('Gemini API quota/error, switching to offline viral generator:', apiError?.message || apiError);
+    }
+  }
+
+  // Automatic Offline Fallback: Generates formatted viral content if API limit/error occurs
+  let fallbackOutput = '';
+  if (activePlatform === 'instagram') {
+    fallbackOutput = `POV: You found ${cleanTopic} and your life changes 🔥✨
+
+Watch till the end to see the cleanest transition you’ve ever seen! ⚡
+Drop a '🔥' in the comments if this inspired you today!
+
+Follow @${authorTag} for daily aesthetic reels & creative vibes 🚀
+Save this reel 📌 so you don't lose it later!
+
+Search Keywords:
+${cleanTopic.toLowerCase()}, aesthetic reel, viral reels india, trending audio, fyp, reels explore, cinemagraphic.
+
+#${tagSafeTopic} #${authorTag} #Reels #Trending #ViralReels #ReelsIndia #ExplorePage #FYP #TrendingNow`;
+  } else if (activePlatform === 'youtube') {
+    fallbackOutput = `WAIT TILL THE END! 🤯 ${cleanTopicUpper} | Viral Shorts
+
+${cleanTopic} is taking over the internet right now! 🔥
+Subscribe to @${authorTag} for daily viral shorts and daily creative highlights! 🔔
+
+Trending Keywords:
+${cleanTopic.toLowerCase()} shorts, trending shorts 2026, viral video india, shorts feed, top shorts.
+
+#${tagSafeTopic} #${authorTag} #Shorts #TrendingShorts #ViralShorts #YouTubeShorts #Trending #Viral #FYP`;
+  } else if (activePlatform === 'facebook') {
+    fallbackOutput = `💡 ${cleanTopicUpper} — An Incredible Moment You Should Experience!
+
+Taking a moment to appreciate "${cleanTopic}" connects us with what truly matters in creative expression and culture. 💡
+Save this post 📌 and share it with your friends and family! ❤️
+
+Follow @${authorTag} for daily highlights!
+
+#${tagSafeTopic} #${authorTag} #FacebookReels #FbViral #TrendingReels #ReelsIndia #ViralPost #DailyKnowledge`;
+  } else {
+    fallbackOutput = `**${cleanTopic} 🔥✨ Viral Trend You Need to Try @${authorTag} #FYP #Viral #TikTok**
+
+This is why everyone is obsessed with ${cleanTopic} right now! 🔥✨
+Like ❤️ and Follow ➕ for daily viral trends and transitions!
+
+#${tagSafeTopic} #FYP #ForYou #ForYouPage #TikTokViral #ViralTrend #TrendingSound`;
+  }
+
+  return res.json({
+    success: true,
+    data: {
+      platform: activePlatform,
+      formattedContent: fallbackOutput
+    }
   });
-} else {
-  import('vite').then(({ createServer }) => {
-    createServer({
+});
+
+// Setup Vite middleware in dev or static serve in prod
+async function startServer() {
+  const isDev = process.env.NODE_ENV !== 'production';
+
+  if (isDev) {
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
-    }).then((vite) => {
-      app.use(vite.middlewares);
     });
+    app.use(vite.middlewares);
+    console.log('⚡ Vite development middlewares attached');
+  } else {
+    app.use(express.static(path.resolve(__dirname, 'dist')));
+    app.get('*', (_req: Request, res: Response) => {
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+    });
+    console.log('📦 Production static assets mounted');
+  }
+
+  app.listen(PORT, () => {
+    console.log(`🚀 OmniReel Server running on port ${PORT}`);
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+startServer().catch((err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
