@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import {
   Download,
   Music,
-  Image as ImageIcon,
   CheckCircle,
   FolderDown,
-  Sparkles,
-  Edit2
+  Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { VideoDetails, VideoFormat } from '../types';
+import { VideoDetails } from '../types';
 import { translations } from '../translations';
 
 interface DownloadOptionsProps {
@@ -26,40 +24,19 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
   const t = translations[lang];
   const [downloadingFormat, setDownloadingFormat] = useState<string | null>(null);
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
+  const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
 
-  // Clean filename generator
   const defaultBaseName = (video.title || 'SnapRill')
     .slice(0, 30)
     .replace(/[^a-zA-Z0-9_-]/g, '_');
   const [customFilename, setCustomFilename] = useState(defaultBaseName);
 
   const saveDirectlyToLocalFolder = (endpoint: string, filename: string) => {
-    // 1. Primary: Hidden iframe trigger (100% reliable inside browser iframes and Android Chrome)
-    try {
-      const hiddenIframe = document.createElement('iframe');
-      hiddenIframe.style.position = 'fixed';
-      hiddenIframe.style.top = '-9999px';
-      hiddenIframe.style.left = '-9999px';
-      hiddenIframe.style.width = '1px';
-      hiddenIframe.style.height = '1px';
-      hiddenIframe.style.opacity = '0';
-      hiddenIframe.src = endpoint;
-      document.body.appendChild(hiddenIframe);
-      setTimeout(() => {
-        if (document.body.contains(hiddenIframe)) {
-          document.body.removeChild(hiddenIframe);
-        }
-      }, 5000);
-    } catch (e) {
-      console.warn('Iframe download error:', e);
-    }
-
-    // 2. Secondary: Programmatic anchor download
     try {
       const link = document.createElement('a');
       link.href = endpoint;
       link.setAttribute('download', filename);
-      link.setAttribute('target', '_self');
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
@@ -67,17 +44,24 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
         if (document.body.contains(link)) {
           document.body.removeChild(link);
         }
-      }, 1000);
+      }, 2000);
     } catch (e) {
-      console.warn('Anchor download error:', e);
+      console.warn('Download trigger error:', e);
+      window.location.href = endpoint;
     }
   };
 
-  const triggerDownload = (url: string, formatName: string, ext = 'mp4', _mime = 'video/mp4') => {
+  const triggerDownload = (url: string, formatName: string, ext = 'mp4') => {
+    if (isLocked || downloadingFormat !== null) return;
+    setIsLocked(true);
     setDownloadingFormat(formatName);
     setDownloadSuccess(null);
+    setDownloadNotice(
+      lang === 'en'
+        ? `📥 Download started! Check your phone notification bar. File is saving to your Downloads folder.`
+        : `📥 ডাউনলোড শুরু হয়েছে! আপনার ফোনের নোটিফিকেশন বার চেক করুন। ফাইলটি সরাসরি লোকাল ফোল্ডারে সেভ হচ্ছে।`
+    );
 
-    // Blast celebratory confetti!
     confetti({
       particleCount: 80,
       spread: 70,
@@ -85,11 +69,11 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
       colors: ['#f43f5e', '#ec4899', '#6366f1', '#06b6d4'],
     });
 
-    const filename = `${customFilename || 'OmniReel'}_${ext === 'mp3' ? 'audio' : 'HD'}.${ext}`;
+    const filename = `${customFilename || 'SnapRill'}_${ext === 'mp3' ? 'audio' : 'HD'}.${ext}`;
 
     let downloadEndpoint = '';
     if (ext === 'mp3') {
-      const audioUrlTarget = url || video.audioUrl || video.videoUrl || '';
+      const audioUrlTarget = url || video.audioUrl || video.videoUrl || video.originalUrl || '';
       if (video.platform === 'youtube' && video.id) {
         downloadEndpoint = `/api/download-youtube?id=${encodeURIComponent(video.id)}&format=mp3&filename=${encodeURIComponent(filename)}`;
       } else {
@@ -98,21 +82,27 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
     } else if (video.platform === 'youtube' && video.id) {
       downloadEndpoint = `/api/download-youtube?id=${encodeURIComponent(video.id)}&format=1080&filename=${encodeURIComponent(filename)}`;
     } else {
-      const targetUrl = url || video.videoUrl || '';
+      const targetUrl = url || video.videoUrl || video.originalUrl || '';
       downloadEndpoint = `/api/download?url=${encodeURIComponent(targetUrl)}&filename=${encodeURIComponent(filename)}`;
     }
 
-    // Execute instant download to local folder on very first click
     saveDirectlyToLocalFolder(downloadEndpoint, filename);
 
     setTimeout(() => {
       setDownloadingFormat(null);
       setDownloadSuccess(formatName);
       onDownloadCompleted(formatName);
-    }, 1200);
+    }, 1500);
+
+    setTimeout(() => {
+      setIsLocked(false);
+    }, 3000);
+
+    setTimeout(() => {
+      setDownloadNotice(null);
+    }, 6000);
   };
 
-  // Ensure primaryFormat selects the genuine MP4 video stream (never an image or cover)
   const isExcludedQuality = (qName: string) => {
     const q = (qName || '').toLowerCase();
     return q.includes('poster') || q.includes('cover') || q.includes('soundtrack') || q.includes('sound only');
@@ -130,8 +120,15 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
   const [cleaningWatermark, setCleaningWatermark] = useState(false);
 
   const triggerCleanDownload = () => {
+    if (isLocked || cleaningWatermark || downloadingFormat !== null) return;
+    setIsLocked(true);
     setCleaningWatermark(true);
     setDownloadSuccess(null);
+    setDownloadNotice(
+      lang === 'en'
+        ? `📥 Clean HD video download started! Check your phone notification bar.`
+        : `📥 ক্লিন এইচডি ভিডিও ডাউনলোড শুরু হয়েছে! আপনার ফোনের নোটিফিকেশন বার চেক করুন।`
+    );
 
     confetti({
       particleCount: 100,
@@ -140,22 +137,25 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
       colors: ['#06b6d4', '#6366f1', '#ec4899', '#f43f5e'],
     });
 
-    const filename = `${customFilename || 'OmniReel'}_Clean_NoWatermark.mp4`;
-    const targetUrl = primaryFormat.url || video.videoUrl || '';
+    const filename = `${customFilename || 'SnapRill'}_Clean_NoWatermark.mp4`;
+    const targetUrl = primaryFormat.url || video.videoUrl || video.originalUrl || '';
 
     const cleanEndpoint = `/api/download-clean?url=${encodeURIComponent(targetUrl)}&filename=${encodeURIComponent(filename)}`;
-    const link = document.createElement('a');
-    link.href = cleanEndpoint;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    saveDirectlyToLocalFolder(cleanEndpoint, filename);
 
     setTimeout(() => {
       setCleaningWatermark(false);
       setDownloadSuccess('Clean Video');
       onDownloadCompleted('Auto Clean Watermark');
-    }, 2500);
+    }, 2000);
+
+    setTimeout(() => {
+      setIsLocked(false);
+    }, 3000);
+
+    setTimeout(() => {
+      setDownloadNotice(null);
+    }, 6000);
   };
 
   const additionalMp4Formats = (video.formats || []).filter((f) => {
@@ -174,7 +174,6 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
           </h3>
         </div>
 
-        {/* Custom filename preview */}
         <div className="flex items-center gap-1.5 text-xs text-slate-400">
           <span className="hidden sm:inline">{t.fileNameLabel}</span>
           <div className="flex items-center bg-slate-950 px-2 py-1 rounded-md border border-slate-800 font-mono text-[11px] text-slate-300">
@@ -189,11 +188,9 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
         </div>
       </div>
 
-      {/* Primary Actions: Video MP4 & Extracted Audio MP3 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {/* Main High-Priority 1-Click Download Button (Direct HD MP4 to Local Folder) */}
         <button
-          onClick={() => triggerDownload(primaryFormat.url, primaryFormat.quality, 'mp4', 'video/mp4')}
+          onClick={() => triggerDownload(primaryFormat.url, primaryFormat.quality, 'mp4')}
           disabled={downloadingFormat !== null || cleaningWatermark}
           className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm sm:text-base bg-gradient-to-r from-rose-500 via-pink-600 to-rose-500 hover:opacity-95 text-white shadow-xl shadow-rose-500/25 flex items-center justify-center gap-2 transition-all cursor-pointer group btn-3d"
         >
@@ -210,9 +207,8 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
           )}
         </button>
 
-        {/* Dedicated Audio Extraction Button (Extracts pure MP3 sound to Local Folder) */}
         <button
-          onClick={() => triggerDownload(video.audioUrl || primaryFormat.url, 'Extracted Audio', 'mp3', 'audio/mpeg')}
+          onClick={() => triggerDownload(video.audioUrl || primaryFormat.url, 'Extracted Audio', 'mp3')}
           disabled={downloadingFormat !== null || cleaningWatermark}
           className="w-full py-3.5 px-4 rounded-xl font-extrabold text-sm sm:text-base bg-gradient-to-r from-violet-600 via-indigo-600 to-violet-600 hover:opacity-95 text-white shadow-xl shadow-indigo-600/25 flex items-center justify-center gap-2 transition-all cursor-pointer group border border-indigo-400/30 btn-3d"
         >
@@ -237,7 +233,6 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
         </button>
       </div>
 
-      {/* Auto-Remove Brand Text & Watermark Button */}
       <button
         onClick={triggerCleanDownload}
         disabled={cleaningWatermark || downloadingFormat !== null}
@@ -267,21 +262,26 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
         )}
       </button>
 
-      {/* Download feedback banner */}
-      {downloadSuccess && (
+      {downloadNotice && (
+        <div className="p-3.5 rounded-xl bg-gradient-to-r from-emerald-500/20 via-teal-500/15 to-emerald-500/20 border border-emerald-500/40 text-emerald-200 text-xs sm:text-sm font-semibold flex items-center gap-2.5 shadow-lg shadow-emerald-950/40 animate-pulse">
+          <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+          <span>{downloadNotice}</span>
+        </div>
+      )}
+
+      {downloadSuccess && !downloadNotice && (
         <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm flex items-center gap-2">
           <CheckCircle className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{t.downloadDone} File saved to your local folder.</span>
         </div>
       )}
 
-      {/* Other Video Quality Formats (if available, pure MP4 video only) */}
       {additionalMp4Formats.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
           {additionalMp4Formats.map((fmt, idx) => (
             <button
               key={idx}
-              onClick={() => triggerDownload(fmt.url, fmt.quality, 'mp4', 'video/mp4')}
+              onClick={() => triggerDownload(fmt.url, fmt.quality, 'mp4')}
               disabled={downloadingFormat !== null}
               className="flex items-center justify-between p-3 rounded-xl bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800 text-left transition-all cursor-pointer group"
             >
@@ -299,7 +299,6 @@ export const DownloadOptions: React.FC<DownloadOptionsProps> = ({
         </div>
       )}
 
-      {/* Local Folder Reassurance Notice */}
       <div className="pt-2 border-t border-slate-800/60 flex items-center gap-2 text-xs text-slate-400">
         <FolderDown className="w-4 h-4 text-emerald-400 shrink-0" />
         <span>
